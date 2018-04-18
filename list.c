@@ -11,7 +11,6 @@ struct node {
 };
 
 struct list {
-    Node *curr;
     Node *head;
     Node *tail;
 };
@@ -178,10 +177,10 @@ Node * list_start(List *self)
 {
     assert(self != NULL);
     
-    // Reset the iterator.
-    self->curr = self->head;
+    // Init an iterator.
+    Node *iter = self->head;
     
-    return self->curr;
+    return iter;
 }
 
 Node * list_next(Node *self)
