@@ -7,6 +7,7 @@ bool test_list_is_empty();
 bool test_list_unshift();
 bool test_list_push();
 bool test_list_shift();
+bool test_list_iter();
 
 int main()
 {
@@ -27,6 +28,11 @@ int main()
     
     if (!test_list_shift()) {
         perror("Failed on test_list_shift");
+        exit(EXIT_FAILURE);
+    }
+    
+    if (!test_list_iter()) {
+        perror("Failed on test_list_iter");
         exit(EXIT_FAILURE);
     }
     
@@ -216,6 +222,38 @@ bool test_list_shift()
     if (!list_is_empty(lt)) {
         failed = true;
         goto LIST_FREE;
+    }
+
+LIST_FREE:
+    list_free(lt);
+    
+    if (failed) {
+        return false;
+    }
+    
+    return true;
+}
+
+bool test_list_iter()
+{
+    bool failed = false;
+    
+    // List: 4 -> 9 -> 5 -> NULL;
+    List *lt = list_init(3, 4, 9, 5);
+    if (lt == NULL) {
+        perror("Failed to allocate List lt");
+        return false;
+    }
+    
+    int arr[] = {4, 9, 5};
+    size_t i = 0;
+    for (Node *it = list_start(lt); !list_end(it); it = list_next(it)) {
+        if (node_value(it) != arr[i]) {
+            failed = true;
+            goto LIST_FREE;
+        }
+        
+        i++;
     }
 
 LIST_FREE:

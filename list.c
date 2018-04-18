@@ -1,4 +1,6 @@
 #include <assert.h>
+#include <stdarg.h>
+#include <stddef.h>
 #include <stdlib.h>
 #include "list.h"
 
@@ -9,6 +11,7 @@ struct node {
 };
 
 struct list {
+    Node *curr;
     Node *head;
     Node *tail;
 };
@@ -27,6 +30,13 @@ static Node * node_new(int data)
     return node;
 }
 
+int node_value(Node *self)
+{
+    assert(self != NULL);
+    
+    return self->data;
+}
+
 List * list_new()
 {
     List *lt = malloc(sizeof(List));
@@ -36,6 +46,44 @@ List * list_new()
     
     lt->head = NULL;
     lt->tail = NULL;
+    
+    return lt;
+}
+
+List * list_init(size_t size, int value, ...)
+{
+    List *lt = malloc(sizeof(List));
+    if (lt == NULL) {
+        return lt;
+    }
+    
+    Node *first = node_new(value);
+    if (first == NULL) {
+        list_free(lt);
+        lt = NULL;
+        return lt;
+    }
+    lt->head = first;
+    lt->tail = first;
+    
+    va_list args;
+    va_start(args, value);
+
+    Node *temp;
+    for (size_t i = 1; i < size; i++) {
+        temp = node_new(va_arg(args, int));
+        if (temp == NULL) {
+            list_free(lt);
+            lt = NULL;
+            return lt;
+        }
+        
+        lt->tail->next = temp;
+        temp->prev = lt->tail;
+        lt->tail = temp;
+    }
+    
+    va_end(args);
     
     return lt;
 }
@@ -124,6 +172,32 @@ int list_shift(List *self)
     self->head->prev = NULL;
     
     return popped;
+}
+
+Node * list_start(List *self)
+{
+    assert(self != NULL);
+    
+    // Reset the iterator.
+    self->curr = self->head;
+    
+    return self->curr;
+}
+
+Node * list_next(Node *self)
+{
+    if (self == NULL) {
+        return NULL;
+    }
+    
+    self = self->next;
+    
+    return self;
+}
+
+bool list_end(Node *self)
+{
+    return self == NULL;
 }
 
 void list_free(void *self)
