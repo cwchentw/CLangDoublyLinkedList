@@ -291,7 +291,7 @@ bool test_list_map()
     }
 
     // List q: 1 -> 4 -> 9 -> NULL
-    // Transverse in functional style.
+    // Traverse in functional style.
     List *lq = list_map(lp, square);
     if (lq == NULL) {
         perror("Failed to allocate List lq");
