@@ -253,6 +253,7 @@ bool test_list_iter()
     
     int arr[] = {4, 9, 5};
     size_t i = 0;
+    // Iterate through lt.
     for (Node *it = list_start(lt); !list_end(it); it = list_next(it)) {
         if (node_value(it) != arr[i]) {
             failed = true;
@@ -282,13 +283,15 @@ bool test_list_map()
 
     bool failed = false;
     
-    // List: 1 -> 2 -> 3 -> NULL;
+    // List p: 1 -> 2 -> 3 -> NULL
     List *lp = list_init(3, 1, 2, 3);
     if (lp == NULL) {
         perror("Failed to allocate List lp");
         return false;
     }
-    
+
+    // List q: 1 -> 4 -> 9 -> NULL
+    // Transverse in functional style.
     List *lq = list_map(lp, square);
     if (lq == NULL) {
         perror("Failed to allocate List lq");
