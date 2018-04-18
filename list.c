@@ -173,6 +173,31 @@ int list_shift(List *self)
     return popped;
 }
 
+int list_pop(List *self)
+{
+    assert(!list_is_empty(self));
+    
+    if (self->head == self->tail)
+    {
+        int popped = self->tail->data;
+        
+        free(self->tail);
+        self->head = NULL;
+        self->tail = NULL;
+        
+        return popped;
+    }
+    
+    Node *curr = self->tail;
+    int popped = curr->data;
+    
+    self->tail = curr->prev;
+    free(curr);
+    self->tail->next = NULL;
+    
+    return popped;
+}
+
 Node * list_start(List *self)
 {
     assert(self != NULL);

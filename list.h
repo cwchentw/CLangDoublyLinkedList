@@ -17,6 +17,7 @@ int list_peek_rear(List *self);
 bool list_unshift(List *self, int value);
 bool list_push(List *self, int value);
 int list_shift(List *self);
+int list_pop(List *self);
 void list_free(void *self);
 
 // Iterator

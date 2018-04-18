@@ -7,6 +7,7 @@ bool test_list_is_empty();
 bool test_list_unshift();
 bool test_list_push();
 bool test_list_shift();
+bool test_list_pop();
 bool test_list_iter();
 bool test_list_map();
 
@@ -29,6 +30,11 @@ int main()
     
     if (!test_list_shift()) {
         perror("Failed on test_list_shift");
+        exit(EXIT_FAILURE);
+    }
+    
+    if (!test_list_pop()) {
+        perror("Failed on test_list_pop");
         exit(EXIT_FAILURE);
     }
     
@@ -221,6 +227,46 @@ bool test_list_shift()
     
     // List: NULL
     if (list_shift(lt) != 5) {
+        failed = true;
+        goto LIST_FREE;
+    }
+    
+    if (!list_is_empty(lt)) {
+        failed = true;
+        goto LIST_FREE;
+    }
+
+LIST_FREE:
+    list_free(lt);
+    
+    if (failed) {
+        return false;
+    }
+    
+    return true;
+}
+
+bool test_list_pop()
+{
+    bool failed = false;
+    
+    List *lt = list_init(3, 4, 9, 5);
+    if (lt == NULL) {
+        perror("Failed to allocate List lt");
+        return false;
+    }
+    
+    if (list_pop(lt) != 5) {
+        failed = true;
+        goto LIST_FREE;
+    }
+    
+    if (list_pop(lt) != 9) {
+        failed = true;
+        goto LIST_FREE;
+    }
+    
+    if (list_pop(lt) != 4) {
         failed = true;
         goto LIST_FREE;
     }
