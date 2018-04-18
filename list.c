@@ -199,6 +199,29 @@ bool list_end(Node *self)
     return self == NULL;
 }
 
+List * list_map(List *self, mapFn mapper)
+{
+    assert(self != NULL);
+    
+    List *result = list_new();
+    if (result == NULL) {
+        return result;
+    }
+    
+    Node *p = self->head;
+    while (p != NULL) {
+        if (!list_push(result, mapper(p->data))) {
+            list_free(result);
+            result = NULL;
+            return result;
+        }
+        
+        p = p->next;
+    }
+    
+    return result;
+}
+
 void list_free(void *self)
 {
     if (self == NULL) {

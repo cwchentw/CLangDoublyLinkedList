@@ -8,6 +8,7 @@ bool test_list_unshift();
 bool test_list_push();
 bool test_list_shift();
 bool test_list_iter();
+bool test_list_map();
 
 int main()
 {
@@ -33,6 +34,11 @@ int main()
     
     if (!test_list_iter()) {
         perror("Failed on test_list_iter");
+        exit(EXIT_FAILURE);
+    }
+    
+    if (!test_list_map()) {
+        perror("Failed on test_list_map");
         exit(EXIT_FAILURE);
     }
     
@@ -258,6 +264,53 @@ bool test_list_iter()
 
 LIST_FREE:
     list_free(lt);
+    
+    if (failed) {
+        return false;
+    }
+    
+    return true;
+}
+
+bool test_list_map()
+{
+    // Nested function, available in GCC.
+    int square(int n)
+    {
+        return n * n;
+    }
+
+    bool failed = false;
+    
+    // List: 1 -> 2 -> 3 -> NULL;
+    List *lp = list_init(3, 1, 2, 3);
+    if (lp == NULL) {
+        perror("Failed to allocate List lp");
+        return false;
+    }
+    
+    List *lq = list_map(lp, square);
+    if (lq == NULL) {
+        perror("Failed to allocate List lq");
+        failed = true;
+        goto LIST_P_FREE;
+    }
+
+    int arr[] = {1, 4, 9};
+    size_t i = 0;
+    for (Node *it = list_start(lq); !list_end(it); it = list_next(it)) {
+        if (node_value(it) != arr[i]) {
+            failed = true;
+            goto LIST_Q_FREE;
+        }
+        
+        i++;
+    }
+
+LIST_Q_FREE:
+    list_free(lq);
+LIST_P_FREE:
+    list_free(lp);
     
     if (failed) {
         return false;
