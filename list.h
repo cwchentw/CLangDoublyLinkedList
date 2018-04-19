@@ -7,6 +7,7 @@
 typedef struct node Node;
 typedef struct list List;
 
+typedef bool (*filterFn) (int);
 typedef bool (*predicateFn) (int, int);
 typedef int (*mapFn) (int);
 
@@ -28,6 +29,7 @@ Node * list_next(Node *self);
 bool list_end(Node *self);
 
 // Higher-order function w/o side effects.
+bool list_any(List *self, filterFn filter);
 List * list_map(List *self, mapFn mapper);
 
 int node_value(Node *self);

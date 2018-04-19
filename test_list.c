@@ -10,6 +10,7 @@ bool test_list_shift();
 bool test_list_insert_when();
 bool test_list_pop();
 bool test_list_iter();
+bool test_list_any();
 bool test_list_map();
 
 int main()
@@ -46,6 +47,11 @@ int main()
     
     if (!test_list_iter()) {
         perror("Failed on test_list_iter");
+        exit(EXIT_FAILURE);
+    }
+    
+    if (!test_list_any()) {
+        perror("Failed on test_list_any");
         exit(EXIT_FAILURE);
     }
     
@@ -382,6 +388,65 @@ bool test_list_iter()
 
 LIST_FREE:
     list_free(lt);
+    
+    if (failed) {
+        return false;
+    }
+    
+    return true;
+}
+
+bool test_list_any()
+{
+    // Nested function, available in GCC.
+    bool is_even(int n)
+    {
+        return n % 2 == 0;
+    }
+    
+    bool failed = false;
+    
+    List *lp = list_new();
+    if (lp == NULL) {
+        perror("Failed to allocate List lp");
+        return false;
+    }
+    
+    if (list_any(lp, is_even) != false) {
+        failed = true;
+        goto LIST_P_FREE;
+    }
+    
+    List *lq = list_init(5, 1, 3, 5, 7, 9);
+    if (lq == NULL) {
+        perror("Failed to allocate List lq");
+        failed = true;
+        goto LIST_P_FREE;
+    }
+    
+    if (list_any(lq, is_even) != false) {
+        failed = true;
+        goto LIST_Q_FREE;
+    }
+    
+    List *lr = list_init(5, 1, 2, 3, 4, 5);
+    if (lr == NULL) {
+        perror("Failed to allocate List lr");
+        failed = true;
+        goto LIST_Q_FREE;
+    }
+    
+    if (list_any(lr, is_even) != true) {
+        failed = true;
+        goto LIST_R_FREE;
+    }
+
+LIST_R_FREE:
+    list_free(lr);
+LIST_Q_FREE:
+    list_free(lq);
+LIST_P_FREE:
+    list_free(lp);
     
     if (failed) {
         return false;
