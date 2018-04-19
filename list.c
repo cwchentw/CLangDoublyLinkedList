@@ -294,6 +294,27 @@ bool list_any(List *self, filterFn filter)
     return false;
 }
 
+bool list_all(List *self, filterFn filter)
+{
+    assert(self != NULL);
+    
+    Node *curr = self->head;
+    
+    if (curr == NULL) {
+        return false;
+    }
+    
+    while (curr != NULL) {
+        if (!filter(curr->data)) {
+            return false;
+        }
+        
+        curr = curr->next;
+    }
+    
+    return true;
+}
+
 List * list_map(List *self, mapFn mapper)
 {
     assert(self != NULL);

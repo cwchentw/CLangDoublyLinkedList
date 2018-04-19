@@ -15,7 +15,7 @@ run: compile
 	echo $$?
 
 compile:
-	$(CC) -Wall -g -o $(TARGET) test_list.c list.c -std=c11
+	$(CC) -Wall -g -o $(TARGET) test_list.c test_manipulation.c test_traversal.c list.c -std=c11
 
 clean:
 	$(RM) $(RMFLAG) $(TARGET)
