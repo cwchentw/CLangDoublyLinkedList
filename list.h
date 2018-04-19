@@ -7,6 +7,7 @@
 typedef struct node Node;
 typedef struct list List;
 
+typedef bool (*predicateFn) (int, int);
 typedef int (*mapFn) (int);
 
 List * list_new();
@@ -15,6 +16,7 @@ bool list_is_empty(List *self);
 int list_peek_front(List *self);
 int list_peek_rear(List *self);
 bool list_unshift(List *self, int value);
+bool list_insert_when(List *self, int value, predicateFn filter);
 bool list_push(List *self, int value);
 int list_shift(List *self);
 int list_pop(List *self);
