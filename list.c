@@ -18,7 +18,7 @@ struct list {
 static Node * node_new(int data)
 {
     Node *node = malloc(sizeof(Node));
-    if (node == NULL) {
+    if (!node) {
         return node;
     }
     
@@ -31,7 +31,7 @@ static Node * node_new(int data)
 
 int node_value(Node *self)
 {
-    assert(self != NULL);
+    assert(self);
     
     return self->data;
 }
@@ -39,7 +39,7 @@ int node_value(Node *self)
 List * list_new()
 {
     List *lt = malloc(sizeof(List));
-    if (lt == NULL) {
+    if (!lt) {
         return lt;
     }
     
@@ -52,12 +52,12 @@ List * list_new()
 List * list_init(size_t size, int value, ...)
 {
     List *lt = malloc(sizeof(List));
-    if (lt == NULL) {
+    if (!lt) {
         return lt;
     }
     
     Node *first = node_new(value);
-    if (first == NULL) {
+    if (!first) {
         list_free(lt);
         lt = NULL;
         return lt;
@@ -89,7 +89,7 @@ List * list_init(size_t size, int value, ...)
 
 bool list_is_empty(List *self)
 {
-    assert(self != NULL);
+    assert(self);
     return self->head == NULL;
 }
 
@@ -107,14 +107,14 @@ int list_peek_rear(List *self)
 
 bool list_unshift(List *self, int value)
 {
-    assert(self != NULL);
+    assert(self);
     
     Node *node = node_new(value);
-    if (node == NULL) {
+    if (!node) {
         return false;
     }
     
-    if (self->head == NULL) {
+    if (!(self->head)) {
         self->head = node;
         self->tail = node;
         return true;
@@ -129,14 +129,14 @@ bool list_unshift(List *self, int value)
 
 bool list_push(List *self, int value)
 {
-    assert(self != NULL);
+    assert(self);
     
     Node *node = node_new(value);
-    if (node == NULL) {
+    if (!node) {
         return false;
     }
     
-    if (self->tail == NULL) {
+    if (!(self->tail)) {
         self->head = node;
         self->tail = node;
         return true;
@@ -154,11 +154,11 @@ bool list_insert_when(List *self, int value, predicateFn filter)
     assert(self != NULL);
     
     Node *node = node_new(value);
-    if (node == NULL) {
+    if (!node) {
         return false;
     }
     
-    if (self->head == NULL) {
+    if (!(self->head)) {
         self->head = node;
         self->tail = node;
         return true;
@@ -166,9 +166,9 @@ bool list_insert_when(List *self, int value, predicateFn filter)
     
     Node *p = NULL;
     Node *q = self->head;
-    while (q->next != NULL) {
+    while (q->next) {
         if (filter(value, q->data)) {
-            if (p == NULL) {
+            if (!p) {
                 node->next = q;
                 q->prev = node;
                 q = node;
@@ -249,7 +249,7 @@ int list_pop(List *self)
 
 Node * list_start(List *self)
 {
-    assert(self != NULL);
+    assert(self);
     
     // Init an iterator.
     Node *iter = self->head;
@@ -259,7 +259,7 @@ Node * list_start(List *self)
 
 Node * list_next(Node *self)
 {
-    if (self == NULL) {
+    if (!self) {
         return NULL;
     }
     
@@ -275,15 +275,15 @@ bool list_end(Node *self)
 
 bool list_any(List *self, filterFn filter)
 {
-    assert(self != NULL);
+    assert(self);
     
     Node *curr = self->head;
     
-    if (curr == NULL) {
+    if (!curr) {
         return false;
     }
     
-    while (curr != NULL) {
+    while (curr) {
         if (filter(curr->data)) {
             return true;
         }
@@ -296,15 +296,15 @@ bool list_any(List *self, filterFn filter)
 
 bool list_all(List *self, filterFn filter)
 {
-    assert(self != NULL);
+    assert(self);
     
     Node *curr = self->head;
     
-    if (curr == NULL) {
+    if (!curr) {
         return false;
     }
     
-    while (curr != NULL) {
+    while (curr) {
         if (!filter(curr->data)) {
             return false;
         }
@@ -317,15 +317,15 @@ bool list_all(List *self, filterFn filter)
 
 List * list_map(List *self, mapFn mapper)
 {
-    assert(self != NULL);
+    assert(self);
     
     List *result = list_new();
-    if (result == NULL) {
+    if (!result) {
         return result;
     }
     
     Node *p = self->head;
-    while (p != NULL) {
+    while (p) {
         if (!list_push(result, mapper(p->data))) {
             list_free(result);
             result = NULL;
@@ -340,13 +340,13 @@ List * list_map(List *self, mapFn mapper)
 
 void list_free(void *self)
 {
-    if (self == NULL) {
+    if (!self) {
         return;
     }
     
     Node *curr = ((List *) self)->head;
     Node *temp;
-    while (curr != NULL) {
+    while (curr) {
         temp = curr;
         curr = curr->next;
         free(temp);
