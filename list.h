@@ -5,6 +5,7 @@
 #include <stddef.h>
 
 typedef struct node Node;
+typedef Node * ListIter;
 typedef struct list List;
 
 typedef bool (*filterFn) (int);
@@ -24,15 +25,15 @@ int list_pop(List *self);
 void list_free(void *self);
 
 // Iterator
-Node * list_start(List *self);
-Node * list_next(Node *self);
-bool list_end(Node *self);
+ListIter list_start(List *self);
+ListIter list_next(ListIter iter);
+bool list_end(ListIter iter);
 
 // Higher-order function w/o side effects.
 bool list_any(List *self, filterFn filter);
 bool list_all(List *self, filterFn filter);
 List * list_map(List *self, mapFn mapper);
 
-int node_value(Node *self);
+int node_value(ListIter iter);
 
 #endif // LIST_H

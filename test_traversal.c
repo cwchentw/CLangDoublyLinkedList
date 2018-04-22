@@ -16,7 +16,7 @@ bool test_list_iter()
     int arr[] = {4, 9, 5};
     size_t i = 0;
     // Iterate through lt.
-    for (Node *it = list_start(lt); !list_end(it); it = list_next(it)) {
+    for (ListIter it = list_start(lt); !list_end(it); it = list_next(it)) {
         if (node_value(it) != arr[i]) {
             failed = true;
             goto LIST_FREE;
@@ -181,7 +181,7 @@ bool test_list_map()
 
     int arr[] = {1, 4, 9};
     size_t i = 0;
-    for (Node *it = list_start(lq); !list_end(it); it = list_next(it)) {
+    for (ListIter it = list_start(lq); !list_end(it); it = list_next(it)) {
         if (node_value(it) != arr[i]) {
             failed = true;
             goto LIST_Q_FREE;

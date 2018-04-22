@@ -2,7 +2,7 @@ CC=gcc
 MEM_CHECK=valgrind
 RM=rm
 RMFLAG=-rf
-TARGET=test_list
+TARGET=test_list.out
 
 all: run
 
