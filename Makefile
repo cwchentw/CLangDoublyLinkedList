@@ -1,4 +1,5 @@
 CC=gcc
+CFLAGS=-Wall -g -std=c99
 MEM_CHECK=valgrind
 RM=rm
 RMFLAG=-rf
@@ -15,7 +16,9 @@ run: compile
 	echo $$?
 
 compile:
-	$(CC) -Wall -g -o $(TARGET) test_list.c test_manipulation.c test_traversal.c list.c -std=c11
+	$(CC) $(CFLAGS) -o $(TARGET) test_list.c \
+		test_manipulation.c test_traversal.c \
+		list.c
 
 clean:
 	$(RM) $(RMFLAG) $(TARGET)
