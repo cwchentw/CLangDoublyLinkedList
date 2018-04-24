@@ -15,10 +15,13 @@ run: compile
 	./$(TARGET)
 	echo $$?
 
-compile:
+compile: crline
 	$(CC) $(CFLAGS) -o $(TARGET) test_list.c \
 		test_manipulation.c test_traversal.c \
 		list.c
+
+crline:
+	perl -pi -e "s{^[ \t]+$$}{}g;" *
 
 clean:
 	$(RM) $(RMFLAG) $(TARGET)

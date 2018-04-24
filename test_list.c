@@ -21,12 +21,12 @@ int main()
     TEST(test_list_shift());
     TEST(test_list_insert_when());
     TEST(test_list_pop());
-    
+
     // Test list traversal.
     TEST(test_list_iter());
     TEST(test_list_any());
     TEST(test_list_all());
     TEST(test_list_map());
-    
+
     return 0;
 }
