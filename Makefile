@@ -1,5 +1,11 @@
-CC=gcc
-CFLAGS=-Wall -g -std=c99
+ifndef CC
+	CC=gcc
+endif
+
+ifndef CFLAGS
+	CFLAGS=-Wall -g -std=c99
+endif
+
 MEM_CHECK=valgrind
 RM=rm
 RMFLAG=-rf
@@ -21,7 +27,7 @@ compile: crline
 		list.c
 
 crline:
-	perl -pi -e "s{^[ \t]+$$}{}g;" *
+	perl -lpi -e "s{\s+$$}{}g;" *
 
 clean:
 	$(RM) $(RMFLAG) $(TARGET)
