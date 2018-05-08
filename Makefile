@@ -1,33 +1,32 @@
-ifndef CC
-	CC=gcc
-endif
+CFLAGS=-Wall -Wextra -g -std=c99
 
-ifndef CFLAGS
-	CFLAGS=-Wall -g -std=c99
-endif
+MEM_CHECK=valgrind --quiet
+OBJS=test_list.o test_manipulation.o test_traversal.o \
+	list.o
+TEST_PROG=test_list.out
 
-MEM_CHECK=valgrind
-RM=rm
-RMFLAG=-rf
-TARGET=test_list.out
+.PHONY: all memo test compile trim clean
 
-all: run
+all: test
 
-check: compile
-	$(MEM_CHECK) ./$(TARGET)
+memo: compile
+	$(MEM_CHECK) ./$(TEST_PROG)
 	echo $$?
 
-run: compile
-	./$(TARGET)
+test: compile
+	./$(TEST_PROG)
 	echo $$?
 
-compile: crline
-	$(CC) $(CFLAGS) -o $(TARGET) test_list.c \
-		test_manipulation.c test_traversal.c \
-		list.c
+compile: $(TEST_PROG)
 
-crline:
+$(TEST_PROG): $(OBJS)
+	$(CC) $(CFLAGS) -o $(TEST_PROG) *.o
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $<
+
+trim:
 	perl -lpi -e "s{\s+$$}{}g;" *
 
 clean:
-	$(RM) $(RMFLAG) $(TARGET)
+	$(RM) $(TEST_PROG) *.o
