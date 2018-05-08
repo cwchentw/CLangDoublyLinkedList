@@ -172,8 +172,7 @@ bool test_list_map()
 
     // List q: 1 -> 4 -> 9 -> NULL
     // Traverse in functional style.
-    List *lq = list_map(lp, square);
-    if (lq == NULL) {
+    if (!list_map(&lp, square)) {
         perror("Failed to allocate List lq");
         failed = true;
         goto LIST_P_FREE;
@@ -181,17 +180,15 @@ bool test_list_map()
 
     int arr[] = {1, 4, 9};
     size_t i = 0;
-    for (ListIter it = list_start(lq); !list_end(it); it = list_next(it)) {
+    for (ListIter it = list_start(lp); !list_end(it); it = list_next(it)) {
         if (node_value(it) != arr[i]) {
             failed = true;
-            goto LIST_Q_FREE;
+            goto LIST_P_FREE;
         }
 
         i++;
     }
 
-LIST_Q_FREE:
-    list_free(lq);
 LIST_P_FREE:
     list_free(lp);
 

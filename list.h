@@ -29,10 +29,10 @@ ListIter list_start(List *self);
 ListIter list_next(ListIter iter);
 bool list_end(ListIter iter);
 
-// Higher-order function w/o side effects.
+// Higher-order function w/ side effects.
 bool list_any(List *self, filterFn filter);
 bool list_all(List *self, filterFn filter);
-List * list_map(List *self, mapFn mapper);
+bool list_map(List **self, mapFn mapper);
 
 int node_value(ListIter iter);
 

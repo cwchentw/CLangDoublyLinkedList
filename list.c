@@ -315,27 +315,30 @@ bool list_all(List *self, filterFn filter)
     return true;
 }
 
-List * list_map(List *self, mapFn mapper)
+bool list_map(List **self, mapFn mapper)
 {
-    assert(self);
+    assert(*self);
 
     List *result = list_new();
     if (!result) {
-        return result;
+        return false;
     }
 
-    Node *p = self->head;
+    Node *p = (*self)->head;
     while (p) {
         if (!list_push(result, mapper(p->data))) {
             list_free(result);
             result = NULL;
-            return result;
+            return false;
         }
 
         p = p->next;
     }
 
-    return result;
+    list_free(*self);
+    *self = result;
+
+    return true;
 }
 
 void list_free(void *self)
