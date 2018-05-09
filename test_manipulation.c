@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "list.h"
 
-bool test_list_is_empty()
+bool test_list_is_empty(void)
 {
     bool failed = false;
 
@@ -26,7 +26,7 @@ LIST_FREE:
     return true;
 }
 
-bool test_list_unshift()
+bool test_list_unshift(void)
 {
     bool failed = false;
 
@@ -83,7 +83,7 @@ LIST_FREE:
     return true;
 }
 
-bool test_list_insert_when()
+bool test_list_insert_when(void)
 {
     // Nested function, available in GCC.
     bool is_smaller(int a, int b)
@@ -148,7 +148,7 @@ LIST_FREE:
     return true;
 }
 
-bool test_list_push()
+bool test_list_push(void)
 {
     bool failed = false;
 
@@ -200,7 +200,7 @@ LIST_FREE:
     return true;
 }
 
-bool test_list_shift()
+bool test_list_shift(void)
 {
     bool failed = false;
 
@@ -261,7 +261,7 @@ LIST_FREE:
     return true;
 }
 
-bool test_list_pop()
+bool test_list_pop(void)
 {
     bool failed = false;
 

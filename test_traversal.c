@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "list.h"
 
-bool test_list_iter()
+bool test_list_iter(void)
 {
     bool failed = false;
 
@@ -35,7 +35,7 @@ LIST_FREE:
     return true;
 }
 
-bool test_list_any()
+bool test_list_any(void)
 {
     // Nested function, available in GCC.
     bool is_even(int n)
@@ -94,7 +94,7 @@ LIST_P_FREE:
     return true;
 }
 
-bool test_list_all()
+bool test_list_all(void)
 {
     // Nested fuction, available in GCC.
     bool is_even(int n)
@@ -153,7 +153,7 @@ LIST_P_FREE:
     return true;
 }
 
-bool test_list_map()
+bool test_list_map(void)
 {
     // Nested function, available in GCC.
     int square(int n)

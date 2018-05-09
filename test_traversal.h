@@ -1,9 +1,9 @@
 #ifndef TEST_TRAVERSAL_H
 #define TEST_TRAVERSAL_H
 
-bool test_list_iter();
-bool test_list_any();
-bool test_list_all();
-bool test_list_map();
+bool test_list_iter(void);
+bool test_list_any(void);
+bool test_list_all(void);
+bool test_list_map(void);
 
 #endif // TEST_TRAVERSAL_H
