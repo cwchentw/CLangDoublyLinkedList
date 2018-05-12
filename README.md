@@ -4,9 +4,11 @@ A small program demos how to implement doubly-linked list in C, a basic topic in
 
 ## System Requirements
 
-* Any modern GNU/Linux distro
+* A modern Unix-like system.
 * GCC
-* Valgrind
+* (Dev) Valgrind
+
+We tested this repo on a recent Ubuntu.
 
 ## Usage
 
