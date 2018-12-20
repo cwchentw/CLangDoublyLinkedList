@@ -13,6 +13,7 @@ struct node {
 struct list {
     Node *head;
     Node *tail;
+    size_t size;
 };
 
 static Node * node_new(int data)
@@ -45,6 +46,7 @@ List * list_new()
 
     lt->head = NULL;
     lt->tail = NULL;
+    lt->size = 0;
 
     return lt;
 }
@@ -64,9 +66,11 @@ List * list_init(size_t size, int value, ...)
     }
     lt->head = first;
     lt->tail = first;
+    lt->size = 0;
 
     va_list args;
     va_start(args, value);
+    lt->size++;
 
     Node *temp;
     for (size_t i = 1; i < size; i++) {
@@ -80,6 +84,8 @@ List * list_init(size_t size, int value, ...)
         lt->tail->next = temp;
         temp->prev = lt->tail;
         lt->tail = temp;
+
+        lt->size++;
     }
 
     va_end(args);
@@ -90,7 +96,15 @@ List * list_init(size_t size, int value, ...)
 bool list_is_empty(List *self)
 {
     assert(self);
+
     return self->head == NULL;
+}
+
+size_t list_size(List *self)
+{
+    assert(self);
+
+    return self->size;
 }
 
 int list_peek_front(List *self)
@@ -117,12 +131,17 @@ bool list_unshift(List *self, int value)
     if (!(self->head)) {
         self->head = node;
         self->tail = node;
+
+        self->size++;
+
         return true;
     }
 
     node->next = self->head;
     self->head->prev = node;
     self->head = node;
+
+    self->size++;
 
     return true;
 }
@@ -139,12 +158,17 @@ bool list_push(List *self, int value)
     if (!(self->tail)) {
         self->head = node;
         self->tail = node;
+
+        self->size++;
+
         return true;
     }
 
     self->tail->next = node;
     node->prev = self->tail;
     self->tail = node;
+
+    self->size++;
 
     return true;
 }
@@ -161,6 +185,9 @@ bool list_insert_when(List *self, int value, predicateFn filter)
     if (!(self->head)) {
         self->head = node;
         self->tail = node;
+
+        self->size++;
+
         return true;
     }
 
@@ -195,6 +222,8 @@ bool list_insert_when(List *self, int value, predicateFn filter)
         self->tail = q;
     }
 
+    self->size++;
+
     return true;
 }
 
@@ -209,6 +238,8 @@ int list_shift(List *self)
         self->head = NULL;
         self->tail = NULL;
 
+        self->size--;
+
         return popped;
     }
 
@@ -218,6 +249,8 @@ int list_shift(List *self)
     self->head = curr->next;
     free(curr);
     self->head->prev = NULL;
+
+    self->size--;
 
     return popped;
 }
@@ -234,6 +267,8 @@ int list_pop(List *self)
         self->head = NULL;
         self->tail = NULL;
 
+        self->size--;
+
         return popped;
     }
 
@@ -243,6 +278,8 @@ int list_pop(List *self)
     self->tail = curr->prev;
     free(curr);
     self->tail->next = NULL;
+
+    self->size--;
 
     return popped;
 }

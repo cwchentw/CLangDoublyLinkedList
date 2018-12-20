@@ -15,11 +15,13 @@ typedef int (*mapFn) (int);
 // Constructor.
 List * list_new();
 List * list_init(size_t size, int value, ...);
+
 // Destructor.
 void list_free(void *self);
 
 // List state.
 bool list_is_empty(List *self);
+size_t list_size(List *self);
 
 // Getters.
 int list_peek_front(List *self);

@@ -17,6 +17,11 @@ bool test_list_is_empty(void)
         goto LIST_FREE;
     }
 
+    if (list_size(lt) != 0) {
+        failed = true;
+        goto LIST_FREE;
+    }
+
 LIST_FREE:
     list_free(lt);
 
@@ -74,6 +79,11 @@ bool test_list_unshift(void)
         goto LIST_FREE;
     }
 
+    if (list_size(lt) != 2) {
+        failed = true;
+        goto LIST_FREE;
+    }
+
 LIST_FREE:
     list_free(lt);
 
@@ -118,6 +128,11 @@ bool test_list_insert_when(void)
         goto LIST_FREE;
     }
 
+    if (list_size(lt) != 3) {
+        failed = true;
+        goto LIST_FREE;
+    }
+
     if (list_shift(lt) != 1) {
         failed = true;
         goto LIST_FREE;
@@ -135,6 +150,11 @@ bool test_list_insert_when(void)
 
 
     if (!list_is_empty(lt)) {
+        failed = true;
+        goto LIST_FREE;
+    }
+
+    if (list_size(lt) != 0) {
         failed = true;
         goto LIST_FREE;
     }
@@ -191,6 +211,11 @@ bool test_list_push(void)
         goto LIST_FREE;
     }
 
+    if (list_size(lt) != 2) {
+        failed = true;
+        goto LIST_FREE;
+    }
+
 LIST_FREE:
     list_free(lt);
 
@@ -229,6 +254,11 @@ bool test_list_shift(void)
         goto LIST_FREE;
     }
 
+    if (list_size(lt) != 3) {
+        failed = true;
+        goto LIST_FREE;
+    }
+
     // List: 9 -> 5 -> NULL
     if (list_shift(lt) != 4) {
         failed = true;
@@ -248,6 +278,11 @@ bool test_list_shift(void)
     }
 
     if (!list_is_empty(lt)) {
+        failed = true;
+        goto LIST_FREE;
+    }
+
+    if (list_size(lt) != 0) {
         failed = true;
         goto LIST_FREE;
     }
@@ -288,6 +323,11 @@ bool test_list_pop(void)
     }
 
     if (!list_is_empty(lt)) {
+        failed = true;
+        goto LIST_FREE;
+    }
+
+    if (list_size(lt) != 0) {
         failed = true;
         goto LIST_FREE;
     }
