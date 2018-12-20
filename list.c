@@ -139,6 +139,26 @@ bool list_at(List *self, size_t index, int *out)
     return false;
 }
 
+bool list_set_at(List *self, size_t index, int data)
+{
+    assert(self);
+    assert(index < list_size(self));
+
+    Node* curr = self->head;
+    size_t i = 0;
+    while (curr) {
+        if (i == index) {
+            curr->data = data;
+            return true;
+        }
+
+        curr = curr->next;
+        i++;
+    }
+
+    return false;
+}
+
 bool list_unshift(List *self, int value)
 {
     assert(self);

@@ -66,6 +66,39 @@ LIST_FREE:
     return true;
 }
 
+bool test_list_set_at(void)
+{
+    bool failed = false;
+
+    List *lt = list_init(3, 3, 4, 5);
+
+    int *out = malloc(sizeof(int));
+    if (!(list_at(lt, 1, out) && *out == 4)) {
+        failed = true;
+        goto LIST_FREE;
+    }
+
+    if (!list_set_at(lt, 1, 99)) {
+        failed = true;
+        goto LIST_FREE;
+    }
+
+    if (!(list_at(lt, 1, out) && *out == 99)) {
+        failed = true;
+        goto LIST_FREE;
+    }
+
+LIST_FREE:
+    free(out);
+    list_free(lt);
+
+    if (failed) {
+        return false;
+    }
+
+    return true;
+}
+
 bool test_list_unshift(void)
 {
     bool failed = false;

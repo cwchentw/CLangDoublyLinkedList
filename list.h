@@ -28,6 +28,9 @@ int list_peek_front(List *self);
 int list_peek_rear(List *self);
 bool list_at(List *self, size_t index, int *out);
 
+// Setters.
+bool list_set_at(List *self, size_t index, int data);
+
 // List manipulation.
 bool list_unshift(List *self, int value);
 bool list_push(List *self, int value);

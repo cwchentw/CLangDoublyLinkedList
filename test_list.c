@@ -14,9 +14,16 @@
 
 int main()
 {
-    // Test list manipulation.
+    // Test list state.
     TEST(test_list_is_empty());
+
+    // Test list getters.
     TEST(test_list_at());
+
+    // Test list setters.
+    TEST(test_list_set_at());
+
+    // Test list manipulation.
     TEST(test_list_unshift());
     TEST(test_list_push());
     TEST(test_list_shift());
