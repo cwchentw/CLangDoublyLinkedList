@@ -5,6 +5,8 @@ OBJS=test_list.o test_manipulation.o test_traversal.o \
 	list.o
 TEST_PROG=test_list.out
 
+RM=del
+
 .PHONY: all memo test compile trim clean
 
 all: test
@@ -15,7 +17,7 @@ memo: compile
 
 test: compile
 	./$(TEST_PROG)
-	echo $$?
+	echo %errorlevel%
 
 compile: $(TEST_PROG)
 

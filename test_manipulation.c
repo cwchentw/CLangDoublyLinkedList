@@ -83,14 +83,14 @@ LIST_FREE:
     return true;
 }
 
+// Nested function, available in GCC.
+static bool is_smaller(int a, int b)
+{
+    return a < b;
+}
+
 bool test_list_insert_when(void)
 {
-    // Nested function, available in GCC.
-    bool is_smaller(int a, int b)
-    {
-        return a < b;
-    }
-
     bool failed = false;
 
     List *lt = list_new();
