@@ -28,7 +28,8 @@ $(TEST_PROG): $(OBJS)
 	$(CC) $(CFLAGS) -c $<
 
 trim:
-	perl -lpi -e "s{\s+$$}{}g;" *
+	for %%f in (*.c *.h) do perl -lp -i.bak -e "s{\s+$$}{}g;" %%f
+	del *.bak
 
 clean:
 	$(RM) $(TEST_PROG) *.o

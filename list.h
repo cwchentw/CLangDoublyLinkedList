@@ -18,9 +18,14 @@ List * list_init(size_t size, int value, ...);
 // Destructor.
 void list_free(void *self);
 
+// List state.
 bool list_is_empty(List *self);
+
+// Getters.
 int list_peek_front(List *self);
 int list_peek_rear(List *self);
+
+// List manipulation.
 bool list_unshift(List *self, int value);
 bool list_push(List *self, int value);
 int list_shift(List *self);
