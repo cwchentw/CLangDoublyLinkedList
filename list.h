@@ -26,6 +26,7 @@ size_t list_size(List *self);
 // Getters.
 int list_peek_front(List *self);
 int list_peek_rear(List *self);
+bool list_at(List *self, size_t index, int *out);
 
 // List manipulation.
 bool list_unshift(List *self, int value);

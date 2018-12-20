@@ -16,6 +16,7 @@ int main()
 {
     // Test list manipulation.
     TEST(test_list_is_empty());
+    TEST(test_list_at());
     TEST(test_list_unshift());
     TEST(test_list_push());
     TEST(test_list_shift());

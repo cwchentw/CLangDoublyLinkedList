@@ -1,5 +1,6 @@
 #include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include "list.h"
 
 bool test_list_is_empty(void)
@@ -23,6 +24,39 @@ bool test_list_is_empty(void)
     }
 
 LIST_FREE:
+    list_free(lt);
+
+    if (failed) {
+        return false;
+    }
+
+    return true;
+}
+
+bool test_list_at(void)
+{
+    bool failed = false;
+
+    List *lt = list_init(3, 3, 4, 5);
+
+    int *out = malloc(sizeof(int));
+    if (!(list_at(lt, 0, out) && *out == 3)) {
+        failed = true;
+        goto LIST_FREE;
+    }
+
+    if (!(list_at(lt, 1, out) && *out == 4)) {
+        failed = true;
+        goto LIST_FREE;
+    }
+
+    if (!(list_at(lt, 2, out) && *out == 5)) {
+        failed = true;
+        goto LIST_FREE;
+    }
+
+LIST_FREE:
+    free(out);
     list_free(lt);
 
     if (failed) {
