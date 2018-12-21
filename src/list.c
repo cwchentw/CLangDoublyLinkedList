@@ -213,6 +213,68 @@ bool list_push(List *self, int value)
     return true;
 }
 
+bool list_insert_at(List *self, size_t index, int value)
+{
+    assert(self);
+
+    if (!(self->head)) {
+        assert(index == 0);
+    } else {
+        assert(0 <= index && index <= self->size);
+    }
+
+    Node *node = node_new(value);
+    if (!node) {
+        return false;
+    }
+
+    if (!(self->head)) {
+        self->head = node;
+        self->tail = node;
+
+        self->size++;
+
+        return true;
+    }
+
+    Node *p = NULL;
+    Node *q = self->head;
+    size_t i = 0;
+    while(q->next) {
+        if (i == index) {
+            if (!p) {
+                node->next = q;
+                q->prev = node;
+                q = node;
+                self->head = q;
+            } else {
+                p->next = node;
+                node->prev = p;
+
+                q->prev = node;
+                node->next = q;
+            }
+
+            break;
+        }
+
+        p = q;
+        q = q->next;
+        i++;
+    }
+
+    if (q == self->tail) {
+        q->next = node;
+        node->prev = q;
+        q = node;
+        self->tail = q;
+    }
+
+    self->size++;
+
+    return true;
+}
+
 bool list_insert_when(List *self, int value, predicateFn filter)
 {
     assert(self != NULL);

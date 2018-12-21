@@ -29,6 +29,7 @@ int main()
     TEST(test_list_shift());
     TEST(test_list_insert_when());
     TEST(test_list_pop());
+    TEST(test_list_insert_at());
 
     // Test list traversal.
     TEST(test_list_iter());
@@ -436,6 +437,67 @@ bool test_list_pop(void)
     }
 
 LIST_FREE:
+    list_free(lt);
+
+    if (failed) {
+        return false;
+    }
+
+    return true;
+}
+
+bool test_list_insert_at(void)
+{
+    bool failed = false;
+    int *out = malloc(sizeof(int));
+
+    List *lt = list_init(2, 3, 4);
+    if (!lt) {
+        return false;
+    }
+
+    if (!list_insert_at(lt, 0, 2)) {
+        failed = true;
+        goto LIST_FREE;
+    }
+
+    if (!(list_at(lt, 0, out) && *out == 2)) {
+        failed = true;
+        goto LIST_FREE;
+    }
+
+    if (!list_insert_at(lt, 3, 5)) {
+        failed = true;
+        goto LIST_FREE;
+    }
+
+    if (!(list_at(lt, 3, out) && *out == 5)) {
+        failed = true;
+        goto LIST_FREE;
+    }
+
+    if (!(list_size(lt) == 4)) {
+        failed = true;
+        goto LIST_FREE;
+    }
+
+    if (!list_insert_at(lt, 2, 99)) {
+        failed = true;
+        goto LIST_FREE;
+    }
+
+    if (!(list_at(lt, 2, out) && *out == 99)) {
+        failed = true;
+        goto LIST_FREE;
+    }
+
+    if (!(list_size(lt) == 5)) {
+        failed = true;
+        goto LIST_FREE;
+    }
+
+LIST_FREE:
+    free(out);
     list_free(lt);
 
     if (failed) {
