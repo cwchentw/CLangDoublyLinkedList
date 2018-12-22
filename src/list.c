@@ -350,25 +350,19 @@ int list_pop(List *self)
 {
     assert(!list_is_empty(self));
 
-    if (self->head == self->tail)
-    {
-        int popped = self->tail->data;
+    int popped = self->tail->data;
 
+    if (self->head == self->tail) {
         free(self->tail);
         self->head = NULL;
         self->tail = NULL;
-
-        self->size--;
-
-        return popped;
     }
-
-    Node *curr = self->tail;
-    int popped = curr->data;
-
-    self->tail = curr->prev;
-    free(curr);
-    self->tail->next = NULL;
+    else {
+        Node *curr = self->tail;
+        self->tail = curr->prev;
+        free(curr);
+        self->tail->next = NULL;
+    }
 
     self->size--;
 
