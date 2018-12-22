@@ -327,24 +327,19 @@ int list_shift(List *self)
 {
     assert(!list_is_empty(self));
 
-    if (self->head == self->tail) {
-        int popped = self->head->data;
+    int popped = self->head->data;
 
+    if (self->head == self->tail) {
         free(self->head);
         self->head = NULL;
         self->tail = NULL;
-
-        self->size--;
-
-        return popped;
     }
-
-    Node *curr = self->head;
-    int popped = curr->data;
-
-    self->head = curr->next;
-    free(curr);
-    self->head->prev = NULL;
+    else {
+        Node *curr = self->head;
+        self->head = curr->next;
+        free(curr);
+        self->head->prev = NULL;
+    }
 
     self->size--;
 
