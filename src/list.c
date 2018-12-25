@@ -269,7 +269,7 @@ bool list_insert_at(List *self, size_t index, int value)
 
 bool list_insert_when(List *self, int value, predicateFn filter)
 {
-    assert(self != NULL);
+    assert(self);
 
     Node *node = node_new(value);
     if (!node) {

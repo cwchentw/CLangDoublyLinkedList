@@ -213,7 +213,7 @@ bool test_list_insert_when(void)
     bool failed = false;
 
     List *lt = list_new();
-    if (lt == NULL) {
+    if (!lt) {
         perror("Failed to allocate List lt");
         return false;
     }
