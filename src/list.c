@@ -497,6 +497,26 @@ bool list_all(List *self, filterFn filter)
     return true;
 }
 
+bool list_find(List *self, filterFn filter, size_t *out)
+{
+    assert(!list_is_empty(self));
+
+    Node *curr = self->head;
+    size_t i = 0;
+    while (curr) {
+        if (filter(curr->data)) {
+            *out = i;
+            return true;
+        }
+
+        curr = curr->next;
+        i++;
+    }
+
+    *out = 0;
+    return false;
+}
+
 bool list_map_mut(List **self, mapFn mapper)
 {
     assert(*self);

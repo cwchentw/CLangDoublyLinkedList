@@ -36,6 +36,7 @@ int main()
     TEST(test_list_iter());
     TEST(test_list_any());
     TEST(test_list_all());
+    TEST(test_list_find());
     TEST(test_list_map_mut());
     TEST(test_list_reduce());
 
@@ -691,6 +692,33 @@ LIST_Q_FREE:
     list_free(lq);
 LIST_P_FREE:
     list_free(lp);
+
+    if (failed) {
+        return false;
+    }
+
+    return true;
+}
+
+bool test_list_find(void)
+{
+    bool failed = false;
+
+    List *lt = list_init(5, 5, 6, 7, 8, 9);
+    if (!lt) {
+        return false;
+    }
+
+    size_t *index = malloc(sizeof(size_t));
+    if (!(list_find(lt, is_even, index) && *index == 1)) {
+        fprintf(stderr, "Wrong index: %lu\n", *index);
+        failed = true;
+        goto LIST_FREE;
+    }
+
+LIST_FREE:
+    free(index);
+    list_free(lt);
 
     if (failed) {
         return false;
