@@ -52,6 +52,7 @@ bool list_end(ListIter iter);
 bool list_any(List *self, filterFn filter);
 bool list_all(List *self, filterFn filter);
 bool list_find(List *self, filterFn filter, size_t *out);
+bool list_select_mut(List **self, filterFn filter);
 bool list_map_mut(List **self, mapFn mapper);
 int list_reduce(List *self, reduceFn reducer);
 

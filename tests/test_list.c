@@ -37,6 +37,7 @@ int main()
     TEST(test_list_any());
     TEST(test_list_all());
     TEST(test_list_find());
+    TEST(test_list_select_mut());
     TEST(test_list_map_mut());
     TEST(test_list_reduce());
 
@@ -718,6 +719,39 @@ bool test_list_find(void)
 
 LIST_FREE:
     free(index);
+    list_free(lt);
+
+    if (failed) {
+        return false;
+    }
+
+    return true;
+}
+
+bool test_list_select_mut(void)
+{
+    bool failed = false;
+
+    List *lt = list_init(5, 5, 6, 7, 8, 9);
+    if (!lt) {
+        return false;
+    }
+
+    if (!list_select_mut(&lt, is_even)) {
+        failed = true;
+        goto LIST_FREE;
+    }
+
+    int data[] = {6, 8};
+    int *temp = malloc(sizeof(int));
+    for (size_t i = 0; i < 2; i++) {
+        if (!(list_at(lt, i, temp) && *temp == data[i])) {
+            failed = true;
+            goto LIST_FREE;
+        }
+    }
+
+LIST_FREE:
     list_free(lt);
 
     if (failed) {

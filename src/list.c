@@ -517,6 +517,34 @@ bool list_find(List *self, filterFn filter, size_t *out)
     return false;
 }
 
+bool list_select_mut(List **self, filterFn filter)
+{
+    assert(*self);
+
+    List *out = list_new();
+    if (!out) {
+        return false;
+    }
+
+    Node *curr = (*self)->head;
+    while (curr) {
+        if (filter(curr->data)) {
+            if (!list_push(out, curr->data)) {
+                list_free(out);
+
+                return false;
+            }
+        }
+
+        curr = curr->next;
+    }
+
+    list_free(*self);
+    *self = out;
+
+    return true;
+}
+
 bool list_map_mut(List **self, mapFn mapper)
 {
     assert(*self);
