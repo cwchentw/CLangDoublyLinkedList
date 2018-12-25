@@ -171,15 +171,12 @@ bool list_unshift(List *self, int value)
     if (!(self->head)) {
         self->head = node;
         self->tail = node;
-
-        self->size++;
-
-        return true;
     }
-
-    node->next = self->head;
-    self->head->prev = node;
-    self->head = node;
+    else {
+        node->next = self->head;
+        self->head->prev = node;
+        self->head = node;
+    }
 
     self->size++;
 
