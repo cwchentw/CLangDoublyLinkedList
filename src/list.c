@@ -159,6 +159,30 @@ bool list_set_at(List *self, size_t index, int data)
     return false;
 }
 
+bool list_push(List *self, int value)
+{
+    assert(self);
+
+    Node *node = node_new(value);
+    if (!node) {
+        return false;
+    }
+
+    if (!(self->tail)) {
+        self->head = node;
+        self->tail = node;
+    }
+    else {
+        self->tail->next = node;
+        node->prev = self->tail;
+        self->tail = node;
+    }
+
+    self->size++;
+
+    return true;
+}
+
 bool list_unshift(List *self, int value)
 {
     assert(self);
