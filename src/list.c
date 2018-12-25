@@ -285,15 +285,27 @@ bool list_insert_when(List *self, int value, predicateFn filter)
         return true;
     }
 
+    if (self->head == self->tail) {
+        if (filter(value, self->head->data)) {
+            node->next = self->head;
+            self->head->prev = node;
+            self->head = node;
+        }
+        else {
+            self->tail->next = node;
+            node->prev = self->tail;
+            self->tail = node;
+        }
+    }
+
     Node *p = NULL;
     Node *q = self->head;
     while (q->next) {
         if (filter(value, q->data)) {
             if (!p) {
-                node->next = q;
-                q->prev = node;
-                q = node;
-                self->head = q;
+                node->next = self->head;
+                self->head->prev = node;
+                self->head = node;
             } else {
                 p->next = node;
                 node->prev = p;
@@ -310,9 +322,8 @@ bool list_insert_when(List *self, int value, predicateFn filter)
     }
 
     if (q == self->tail) {
-        q->next = node;
-        node->prev = q;
-        q = node;
+        self->tail->next = node;
+        node->prev = self->tail;
         self->tail = q;
     }
 
