@@ -1,0 +1,34 @@
+.PHONY: all dynamic static clean
+
+all: dynamic
+
+dynamic:
+ifeq ($(CC),cl)
+	$(SET_ENV) && for %%x in (*.c) do $(CC) $(CFLAGS) $(INCLUDE) $(LIBS) \
+		/I ..$(SEP)$(INCLUDE_DIR) /c %%x
+	link /DLL /DEF:$(DYNAMIC_LIB:.dll=.def) /out:..$(SEP)$(DIST_DIR)$(SEP)$(DYNAMIC_LIB) \
+		$(INCLUDE) $(LIBS) $(OBJS)
+else
+	for %%x in (*.c) do $(CC) $(CFLAGS) $(INCLUDE) $(LIBS) \
+		-I ..$(SEP)$(INCLUDE_DIR) -c %%x
+	$(CC) $(CFLAGS) -shared -o ..$(SEP)$(DIST_DIR)$(SEP)$(DYNAMIC_LIB) \
+		$(OBJS) $(INCLUDE) $(LIBS) -I ..$(SEP)$(INCLUDE_DIR)
+endif
+
+static: $(OBJS)
+ifeq ($(CC),cl)
+	lib /out:..$(SEP)$(DIST_DIR)$(SEP)$(STATIC_LIB) $(OBJS)
+else ifeq ($(detected_OS),Darwin)
+	libtool -static -o ..$(SEP)$(DIST_DIR)$(SEP)$(STATIC_LIB) $(OBJS)
+else
+	$(AR) rcs -o ..$(SEP)$(DIST_DIR)$(SEP)$(STATIC_LIB) $(OBJS)
+endif
+
+%.obj: %.c
+	$(SET_ENV) && $(CC) $(CFLAGS) /I ..$(SEP)$(INCLUDE_DIR) $(INCLUDE) $(LIBS) /c $<
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -I ..$(SEP)$(INCLUDE_DIR) $(INCLUDE) $(LIBS)
+
+clean:
+	$(RM) $(OBJS)

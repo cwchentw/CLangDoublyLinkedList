@@ -183,23 +183,57 @@ bool list_unshift(List *self, int value)
     return true;
 }
 
-bool list_push(List *self, int value)
+bool list_insert_at(List *self, size_t index, int value)
 {
     assert(self);
+
+    if (!(self->head)) {
+        assert(index == 0);
+    } else {
+        assert(0 <= index && index <= self->size);
+    }
 
     Node *node = node_new(value);
     if (!node) {
         return false;
     }
 
-    if (!(self->tail)) {
+    if (!(self->head)) {
         self->head = node;
         self->tail = node;
     }
-    else {
-        self->tail->next = node;
-        node->prev = self->tail;
-        self->tail = node;
+
+    Node *p = NULL;
+    Node *q = self->head;
+    size_t i = 0;
+    while(q->next) {
+        if (i == index) {
+            if (!p) {
+                node->next = q;
+                q->prev = node;
+                q = node;
+                self->head = q;
+            } else {
+                p->next = node;
+                node->prev = p;
+
+                q->prev = node;
+                node->next = q;
+            }
+
+            break;
+        }
+
+        p = q;
+        q = q->next;
+        i++;
+    }
+
+    if (q == self->tail) {
+        q->next = node;
+        node->prev = q;
+        q = node;
+        self->tail = q;
     }
 
     self->size++;
@@ -265,24 +299,19 @@ int list_shift(List *self)
 {
     assert(!list_is_empty(self));
 
-    if (self->head == self->tail) {
-        int popped = self->head->data;
+    int popped = self->head->data;
 
+    if (self->head == self->tail) {
         free(self->head);
         self->head = NULL;
         self->tail = NULL;
-
-        self->size--;
-
-        return popped;
     }
-
-    Node *curr = self->head;
-    int popped = curr->data;
-
-    self->head = curr->next;
-    free(curr);
-    self->head->prev = NULL;
+    else {
+        Node *curr = self->head;
+        self->head = curr->next;
+        free(curr);
+        self->head->prev = NULL;
+    }
 
     self->size--;
 
@@ -293,25 +322,19 @@ int list_pop(List *self)
 {
     assert(!list_is_empty(self));
 
-    if (self->head == self->tail)
-    {
-        int popped = self->tail->data;
+    int popped = self->tail->data;
 
+    if (self->head == self->tail) {
         free(self->tail);
         self->head = NULL;
         self->tail = NULL;
-
-        self->size--;
-
-        return popped;
     }
-
-    Node *curr = self->tail;
-    int popped = curr->data;
-
-    self->tail = curr->prev;
-    free(curr);
-    self->tail->next = NULL;
+    else {
+        Node *curr = self->tail;
+        self->tail = curr->prev;
+        free(curr);
+        self->tail->next = NULL;
+    }
 
     self->size--;
 
