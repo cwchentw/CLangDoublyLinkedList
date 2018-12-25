@@ -27,7 +27,7 @@ int main()
     TEST(test_list_unshift());
     TEST(test_list_push());
     TEST(test_list_shift());
-    TEST(test_list_insert_when());
+    TEST(test_list_insert_by());
     TEST(test_list_pop());
     TEST(test_list_insert_at());
     TEST(test_list_remove_at());
@@ -208,7 +208,7 @@ static bool is_smaller(int a, int b)
     return a < b;
 }
 
-bool test_list_insert_when(void)
+bool test_list_insert_by(void)
 {
     bool failed = false;
 
@@ -219,19 +219,19 @@ bool test_list_insert_when(void)
     }
 
     // List: 2 -> NULL
-    if (!list_insert_when(lt, 2, is_smaller)) {
+    if (!list_insert_by(lt, 2, is_smaller)) {
         failed = true;
         goto LIST_FREE;
     }
 
     // List: 2 -> 3 -> NULL
-    if (!list_insert_when(lt, 3, is_smaller)) {
+    if (!list_insert_by(lt, 3, is_smaller)) {
         failed = true;
         goto LIST_FREE;
     }
 
     // List: 1 -> 2 -> 3 -> NULL
-    if (!list_insert_when(lt, 1, is_smaller)) {
+    if (!list_insert_by(lt, 1, is_smaller)) {
         failed = true;
         goto LIST_FREE;
     }

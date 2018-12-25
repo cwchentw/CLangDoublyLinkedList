@@ -267,7 +267,7 @@ bool list_insert_at(List *self, size_t index, int value)
     return true;
 }
 
-bool list_insert_when(List *self, int value, predicateFn filter)
+bool list_insert_by(List *self, int value, predicateFn filter)
 {
     assert(self);
 

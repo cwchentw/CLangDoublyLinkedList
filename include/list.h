@@ -41,7 +41,7 @@ bool list_insert_at(List *self, size_t index, int value);
 int list_remove_at(List *self, size_t index);
 
 // Insertion in ordered list.
-bool list_insert_when(List *self, int value, predicateFn filter);
+bool list_insert_by(List *self, int value, predicateFn filter);
 
 // Iterator
 ListIter list_start(List *self);
