@@ -30,6 +30,7 @@ int main()
     TEST(test_list_insert_when());
     TEST(test_list_pop());
     TEST(test_list_insert_at());
+    TEST(test_list_remove_at());
 
     // Test list traversal.
     TEST(test_list_iter());
@@ -498,6 +499,51 @@ bool test_list_insert_at(void)
 
 LIST_FREE:
     free(out);
+    list_free(lt);
+
+    if (failed) {
+        return false;
+    }
+
+    return true;
+}
+
+bool test_list_remove_at()
+{
+    bool failed = false;
+
+    // 4 -> 5 -> 6 -> 7 -> 8
+    List *lt = list_init(5, 4, 5, 6, 7, 8);
+    if (!lt) {
+        perror("Failed to allocate a list\n");
+        return false;
+    }
+
+    // 5 -> 6 -> 7 -> 8
+    int temp = list_remove_at(lt, 0);
+    if (!(temp == 4)) {
+        fprintf(stderr, "Wrong value: %d\n", temp);
+        failed = true;
+        goto LIST_FREE;
+    }
+
+    // 5 -> 6 -> 7
+    temp = list_remove_at(lt, 3);
+    if (!(temp == 8)) {
+        fprintf(stderr, "Wrong value: %d\n", temp);
+        failed = true;
+        goto LIST_FREE;
+    }
+
+    // 5 -> 7
+    temp = list_remove_at(lt, 1);
+    if (!(temp == 6)) {
+        fprintf(stderr, "Wrong value: %d\n", temp);
+        failed = true;
+        goto LIST_FREE;
+    }
+
+LIST_FREE:
     list_free(lt);
 
     if (failed) {

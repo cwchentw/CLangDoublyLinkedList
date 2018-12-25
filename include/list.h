@@ -37,6 +37,7 @@ bool list_push(List *self, int value);
 int list_shift(List *self);
 int list_pop(List *self);
 bool list_insert_at(List *self, size_t index, int value);
+int list_remove_at(List *self, size_t index);
 
 // Insertion in ordered list.
 bool list_insert_when(List *self, int value, predicateFn filter);

@@ -367,6 +367,68 @@ int list_pop(List *self)
     return popped;
 }
 
+int list_remove_at(List *self, size_t index)
+{
+    assert(!list_is_empty(self));
+
+    if (list_size(self) == 1) {
+        assert(index == 0);
+    }
+    else {
+        assert(index < list_size(self));
+    }
+
+    if (list_size(self) == 1) {
+        int result = self->head->data;
+
+        free(self->head);
+        self->head = NULL;
+        self->tail = NULL;
+        self->size--;
+
+        return result;
+    }
+
+    int result;
+
+    Node *p = NULL;
+    Node *q = self->head;
+    size_t i = 0;
+    while (q->next) {
+        if (i == index) {
+            result = q->data;
+
+            if (!p) {
+                self->head = q->next;
+                free(q);
+                self->head->prev = NULL;
+            }
+            else {
+                p->next = q->next;
+                q->next->prev = p;
+                free(q);
+            }
+
+            break;
+        }
+
+        p = q;
+        q = q->next;
+        i++;
+    }
+
+    if (q == self->tail) {
+        result = q->data;
+        self->tail = p;
+        free(q);
+        self->tail->next = NULL;
+    }
+
+    self->size--;
+
+    return result;
+}
+
 Node * list_start(List *self)
 {
     assert(self);

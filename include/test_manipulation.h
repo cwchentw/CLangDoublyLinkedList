@@ -10,5 +10,6 @@ bool test_list_shift(void);
 bool test_list_insert_when(void);
 bool test_list_pop(void);
 bool test_list_insert_at(void);
+bool test_list_remove_at(void);
 
 #endif // TEST_MANIPULATION_H
