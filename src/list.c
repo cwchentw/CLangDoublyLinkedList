@@ -497,7 +497,7 @@ bool list_all(List *self, filterFn filter)
     return true;
 }
 
-bool list_map(List **self, mapFn mapper)
+bool list_map_mut(List **self, mapFn mapper)
 {
     assert(*self);
 

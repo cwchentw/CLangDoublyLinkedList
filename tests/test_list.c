@@ -36,7 +36,7 @@ int main()
     TEST(test_list_iter());
     TEST(test_list_any());
     TEST(test_list_all());
-    TEST(test_list_map());
+    TEST(test_list_map_mut());
 
     return 0;
 }
@@ -703,7 +703,7 @@ int square(int n)
     return n * n;
 }
 
-bool test_list_map(void)
+bool test_list_map_mut(void)
 {
     bool failed = false;
 
@@ -716,7 +716,7 @@ bool test_list_map(void)
 
     // List q: 1 -> 4 -> 9 -> NULL
     // Traverse in functional style.
-    if (!list_map(&lp, square)) {
+    if (!list_map_mut(&lp, square)) {
         perror("Failed to allocate List lq");
         failed = true;
         goto LIST_P_FREE;
