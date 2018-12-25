@@ -198,15 +198,12 @@ bool list_push(List *self, int value)
     if (!(self->tail)) {
         self->head = node;
         self->tail = node;
-
-        self->size++;
-
-        return true;
     }
-
-    self->tail->next = node;
-    node->prev = self->tail;
-    self->tail = node;
+    else {
+        self->tail->next = node;
+        node->prev = self->tail;
+        self->tail = node;
+    }
 
     self->size++;
 
