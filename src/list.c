@@ -523,6 +523,23 @@ bool list_map_mut(List **self, mapFn mapper)
     return true;
 }
 
+int list_reduce(List *self, reduceFn reducer)
+{
+    assert(!list_is_empty(self));
+
+    Node *curr = self->head;
+    int a = curr->data;
+    curr = curr->next;
+
+    while (curr) {
+        a = reducer(a, curr->data);
+
+        curr = curr->next;
+    }
+
+    return a;
+}
+
 void list_free(void *self)
 {
     if (!self) {

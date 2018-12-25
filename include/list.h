@@ -11,6 +11,7 @@ typedef struct list List;
 typedef bool (*filterFn) (int);
 typedef bool (*predicateFn) (int, int);
 typedef int (*mapFn) (int);
+typedef int (*reduceFn) (int, int);
 
 // Constructor.
 List * list_new();
@@ -51,6 +52,7 @@ bool list_end(ListIter iter);
 bool list_any(List *self, filterFn filter);
 bool list_all(List *self, filterFn filter);
 bool list_map_mut(List **self, mapFn mapper);
+int list_reduce(List *self, reduceFn reducer);
 
 int node_value(ListIter iter);
 

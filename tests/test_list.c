@@ -37,6 +37,7 @@ int main()
     TEST(test_list_any());
     TEST(test_list_all());
     TEST(test_list_map_mut());
+    TEST(test_list_reduce());
 
     return 0;
 }
@@ -735,6 +736,36 @@ bool test_list_map_mut(void)
 
 LIST_P_FREE:
     list_free(lp);
+
+    if (failed) {
+        return false;
+    }
+
+    return true;
+}
+
+static int reducer(int a, int b)
+{
+    return a + b;
+}
+
+bool test_list_reduce(void)
+{
+    bool failed = false;
+
+    List *lt = list_init(5, 1, 2, 3, 4, 5);
+    if (!lt) {
+        return false;
+    }
+
+    int result = list_reduce(lt, reducer);
+    if (!(result == 15)) {
+        failed = true;
+        goto LIST_FREE;
+    }
+
+LIST_FREE:
+    list_free(lt);
 
     if (failed) {
         return false;
