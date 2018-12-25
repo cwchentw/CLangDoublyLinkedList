@@ -225,6 +225,8 @@ bool list_insert_at(List *self, size_t index, int value)
     if (!(self->head)) {
         self->head = node;
         self->tail = node;
+        self->size++;
+        return true;
     }
 
     Node *p = NULL;
