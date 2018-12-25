@@ -214,7 +214,7 @@ bool list_insert_at(List *self, size_t index, int value)
     if (!(self->head)) {
         assert(index == 0);
     } else {
-        assert(0 <= index && index <= self->size);
+        assert(index <= self->size);
     }
 
     Node *node = node_new(value);
