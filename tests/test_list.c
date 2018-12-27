@@ -728,6 +728,48 @@ LIST_FREE:
     return true;
 }
 
+static bool ascending(int a, int b) {
+    return a < b;
+}
+
+bool test_list_sort(void)
+{
+    bool failed = false;
+
+    List *lt = list_init(5, 2, 4, 1, 5, 3);
+    if (!lt) {
+        return false;
+    }
+
+    List *sorted = list_sort(lt, ascending);
+    if (!sorted) {
+        failed = true;
+        goto LIST_FREE;
+    }
+
+    int data[] = {1, 2, 3, 4, 5};
+    int *out = malloc(sizeof(int));
+    for (size_t i = 0; i < 5; i++) {
+        if (!(list_at(lt, i, out) && *out == data[i])) {
+            fprintf(stderr, "Wrong array value %d at %lu\n", *out, i);
+            failed = true;
+            goto SORTED_FREE;
+        }
+    }
+
+SORTED_FREE:
+    free(out);
+    list_free(sorted);
+LIST_FREE:
+    list_free(lt);
+
+    if (failed) {
+        return false;
+    }
+
+    return true;
+}
+
 bool test_list_select_mut(void)
 {
     bool failed = false;

@@ -41,7 +41,7 @@ bool list_insert_at(List *self, size_t index, int value);
 int list_remove_at(List *self, size_t index);
 
 // Insertion in ordered list.
-bool list_insert_by(List *self, int value, predicateFn filter);
+bool list_insert_by(List *self, int value, predicateFn predicate);
 
 // Iterator
 ListIter list_start(List *self);
@@ -52,6 +52,7 @@ bool list_end(ListIter iter);
 bool list_any(List *self, filterFn filter);
 bool list_all(List *self, filterFn filter);
 bool list_find(List *self, filterFn filter, size_t *out);
+List * list_sort(List *self, predicateFn predicate);
 bool list_select_mut(List **self, filterFn filter);
 bool list_map_mut(List **self, mapFn mapper);
 int list_reduce(List *self, reduceFn reducer);

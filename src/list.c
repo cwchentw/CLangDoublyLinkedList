@@ -267,7 +267,7 @@ bool list_insert_at(List *self, size_t index, int value)
     return true;
 }
 
-bool list_insert_by(List *self, int value, predicateFn filter)
+bool list_insert_by(List *self, int value, predicateFn predicate)
 {
     assert(self);
 
@@ -286,7 +286,7 @@ bool list_insert_by(List *self, int value, predicateFn filter)
     }
 
     if (self->head == self->tail) {
-        if (filter(value, self->head->data)) {
+        if (predicate(value, self->head->data)) {
             node->next = self->head;
             self->head->prev = node;
             self->head = node;
@@ -301,7 +301,7 @@ bool list_insert_by(List *self, int value, predicateFn filter)
     Node *p = NULL;
     Node *q = self->head;
     while (q->next) {
-        if (filter(value, q->data)) {
+        if (predicate(value, q->data)) {
             if (!p) {
                 node->next = self->head;
                 self->head->prev = node;
@@ -526,6 +526,32 @@ bool list_find(List *self, filterFn filter, size_t *out)
 
     *out = 0;
     return false;
+}
+
+List * list_sort(List *self, predicateFn filter)
+{
+    assert(self);
+
+    if (list_is_empty(self)) {
+        return NULL;
+    }
+
+    List *out = list_new();
+    if (!out) {
+        return out;
+    }
+
+    Node *curr = self->head;
+    list_push(out, curr->data);
+    curr = curr->next;
+
+    while (curr) {
+        list_insert_by(out, curr->data, filter);
+
+        curr = curr->next;
+    }
+
+    return out;
 }
 
 bool list_select_mut(List **self, filterFn filter)
