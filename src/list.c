@@ -296,6 +296,9 @@ bool list_insert_by(List *self, int value, predicateFn predicate)
             node->prev = self->tail;
             self->tail = node;
         }
+
+        self->size++;
+        return true;
     }
 
     Node *p = NULL;
