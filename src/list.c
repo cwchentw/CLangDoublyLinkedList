@@ -327,7 +327,7 @@ bool list_insert_by(List *self, int value, predicateFn predicate)
     if (q == self->tail) {
         self->tail->next = node;
         node->prev = self->tail;
-        self->tail = q;
+        self->tail = node;
     }
 
     self->size++;
