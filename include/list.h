@@ -14,20 +14,20 @@ typedef int (*mapFn) (int);
 typedef int (*reduceFn) (int, int);
 
 // Constructor.
-List * list_new();
+List * list_new(void);
 List * list_init(size_t size, int value, ...);
 
 // Destructor.
 void list_free(void *self);
 
 // List state.
-bool list_is_empty(List *self);
-size_t list_size(List *self);
+bool list_is_empty(const List *self);
+size_t list_size(const List *self);
 
 // Getters.
-int list_peek_front(List *self);
-int list_peek_rear(List *self);
-bool list_at(List *self, size_t index, int *out);
+int list_peek_front(const List *self);
+int list_peek_rear(const List *self);
+bool list_at(const List *self, size_t index, int *out);
 
 // Setters.
 bool list_set_at(List *self, size_t index, int data);
@@ -44,18 +44,18 @@ int list_remove_at(List *self, size_t index);
 bool list_insert_by(List *self, int value, predicateFn predicate);
 
 // Iterator
-ListIter list_start(List *self);
+ListIter list_start(const List *self);
 ListIter list_next(ListIter iter);
 bool list_end(ListIter iter);
 
 // Higher-order function w/ side effects.
-bool list_any(List *self, filterFn filter);
-bool list_all(List *self, filterFn filter);
-bool list_find(List *self, filterFn filter, size_t *out);
-List * list_sort(List *self, predicateFn predicate);
+bool list_any(const List *self, filterFn filter);
+bool list_all(const List *self, filterFn filter);
+bool list_find(const List *self, filterFn filter, size_t *out);
+List * list_sort(const List *self, predicateFn predicate);
 bool list_select_mut(List **self, filterFn filter);
 bool list_map_mut(List **self, mapFn mapper);
-int list_reduce(List *self, reduceFn reducer);
+int list_reduce(const List *self, reduceFn reducer);
 
 int node_value(ListIter iter);
 

@@ -37,7 +37,7 @@ int node_value(Node *self)
     return self->data;
 }
 
-List * list_new()
+List * list_new(void)
 {
     List *lt = malloc(sizeof(List));
     if (!lt) {
@@ -93,33 +93,50 @@ List * list_init(size_t size, int value, ...)
     return lt;
 }
 
-bool list_is_empty(List *self)
+void list_free(void *self)
+{
+    if (!self) {
+        return;
+    }
+
+    Node *curr = ((List *) self)->head;
+    Node *temp;
+    while (curr) {
+        temp = curr;
+        curr = curr->next;
+        free(temp);
+    }
+
+    free(self);
+}
+
+bool list_is_empty(const List *self)
 {
     assert(self);
 
     return self->head == NULL;
 }
 
-size_t list_size(List *self)
+size_t list_size(const List *self)
 {
     assert(self);
 
     return self->size;
 }
 
-int list_peek_front(List *self)
+int list_peek_front(const List *self)
 {
     assert(!list_is_empty(self));
     return self->head->data;
 }
 
-int list_peek_rear(List *self)
+int list_peek_rear(const List *self)
 {
     assert(!list_is_empty(self));
     return self->tail->data;
 }
 
-bool list_at(List *self, size_t index, int *out)
+bool list_at(const List *self, size_t index, int *out)
 {
     assert(self);
     assert(index < list_size(self));
@@ -443,7 +460,7 @@ int list_remove_at(List *self, size_t index)
     return result;
 }
 
-Node * list_start(List *self)
+Node * list_start(const List *self)
 {
     assert(self);
 
@@ -469,7 +486,7 @@ bool list_end(Node *self)
     return self == NULL;
 }
 
-bool list_any(List *self, filterFn filter)
+bool list_any(const List *self, filterFn filter)
 {
     assert(self);
 
@@ -490,7 +507,7 @@ bool list_any(List *self, filterFn filter)
     return false;
 }
 
-bool list_all(List *self, filterFn filter)
+bool list_all(const List *self, filterFn filter)
 {
     assert(self);
 
@@ -511,7 +528,7 @@ bool list_all(List *self, filterFn filter)
     return true;
 }
 
-bool list_find(List *self, filterFn filter, size_t *out)
+bool list_find(const List *self, filterFn filter, size_t *out)
 {
     assert(!list_is_empty(self));
 
@@ -531,7 +548,7 @@ bool list_find(List *self, filterFn filter, size_t *out)
     return false;
 }
 
-List * list_sort(List *self, predicateFn filter)
+List * list_sort(const List *self, predicateFn filter)
 {
     assert(self);
 
@@ -611,7 +628,7 @@ bool list_map_mut(List **self, mapFn mapper)
     return true;
 }
 
-int list_reduce(List *self, reduceFn reducer)
+int list_reduce(const List *self, reduceFn reducer)
 {
     assert(!list_is_empty(self));
 
@@ -626,21 +643,4 @@ int list_reduce(List *self, reduceFn reducer)
     }
 
     return a;
-}
-
-void list_free(void *self)
-{
-    if (!self) {
-        return;
-    }
-
-    Node *curr = ((List *) self)->head;
-    Node *temp;
-    while (curr) {
-        temp = curr;
-        curr = curr->next;
-        free(temp);
-    }
-
-    free(self);
 }
