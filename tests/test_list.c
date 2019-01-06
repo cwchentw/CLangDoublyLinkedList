@@ -794,6 +794,7 @@ bool test_list_select_mut(void)
     }
 
 LIST_FREE:
+    free(temp);
     list_free(lt);
 
     if (failed) {
