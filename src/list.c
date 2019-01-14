@@ -252,10 +252,9 @@ bool list_insert_at(List *self, size_t index, int value)
     while(q->next) {
         if (i == index) {
             if (!p) {
-                node->next = q;
-                q->prev = node;
-                q = node;
-                self->head = q;
+                node->next = self->head;
+                self->head->prev = node;
+                self->head = node;
             } else {
                 p->next = node;
                 node->prev = p;
@@ -273,10 +272,9 @@ bool list_insert_at(List *self, size_t index, int value)
     }
 
     if (q == self->tail) {
-        q->next = node;
-        node->prev = q;
-        q = node;
-        self->tail = q;
+        self->tail->next = node;
+        node->prev = self->tail;
+        self->tail = node;
     }
 
     self->size++;
