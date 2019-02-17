@@ -418,7 +418,8 @@ int list_remove_at(list_t *self, size_t index)
         return result;
     }
 
-    int result;
+    int result = 0;
+    bool visited = false;
 
     node_t *p = NULL;
     node_t *q = self->head;
@@ -426,6 +427,7 @@ int list_remove_at(list_t *self, size_t index)
     while (q->next) {
         if (i == index) {
             result = q->data;
+            visited = true;
 
             if (!p) {
                 self->head = q->next;
@@ -451,9 +453,13 @@ int list_remove_at(list_t *self, size_t index)
         self->tail = p;
         free(q);
         self->tail->next = NULL;
+        visited = true;
     }
 
     self->size--;
+
+    if (!visited)
+        assert(0 && "Invalid value");
 
     return result;
 }

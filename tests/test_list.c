@@ -773,6 +773,7 @@ LIST_FREE:
 bool test_list_select_mut(void)
 {
     bool failed = false;
+    int *temp = NULL;
 
     list_t *lt = list_init(5, 5, 6, 7, 8, 9);
     if (!lt) {
@@ -785,7 +786,7 @@ bool test_list_select_mut(void)
     }
 
     int data[] = {6, 8};
-    int *temp = malloc(sizeof(int));
+    temp = malloc(sizeof(int));
     for (size_t i = 0; i < 2; i++) {
         if (!(list_at(lt, i, temp) && *temp == data[i])) {
             failed = true;
