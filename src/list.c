@@ -19,9 +19,8 @@ struct list {
 static node_t * node_new(int data)
 {
     node_t *node = malloc(sizeof(node_t));
-    if (!node) {
+    if (!node)
         return node;
-    }
 
     node->data = data;
     node->prev = NULL;
@@ -40,9 +39,8 @@ int node_value(node_t *self)
 list_t * list_new(void)
 {
     list_t *lt = malloc(sizeof(list_t));
-    if (!lt) {
+    if (!lt)
         return lt;
-    }
 
     lt->head = NULL;
     lt->tail = NULL;
@@ -54,9 +52,8 @@ list_t * list_new(void)
 list_t * list_init(size_t size, int value, ...)
 {
     list_t *lt = malloc(sizeof(list_t));
-    if (!lt) {
+    if (!lt)
         return lt;
-    }
 
     node_t *first = node_new(value);
     if (!first) {
@@ -98,9 +95,8 @@ list_t * list_init(size_t size, int value, ...)
 
 void list_free(void *self)
 {
-    if (!self) {
+    if (!self)
         return;
-    }
 
     node_t *curr = ((list_t *) self)->head;
     node_t *temp;
@@ -130,12 +126,14 @@ size_t list_size(const list_t *self)
 int list_peek_front(const list_t *self)
 {
     assert(!list_is_empty(self));
+
     return self->head->data;
 }
 
 int list_peek_rear(const list_t *self)
 {
     assert(!list_is_empty(self));
+
     return self->tail->data;
 }
 
@@ -184,9 +182,8 @@ bool list_push(list_t *self, int value)
     assert(self);
 
     node_t *node = node_new(value);
-    if (!node) {
+    if (!node)
         return false;
-    }
 
     if (!(self->tail)) {
         self->head = node;
@@ -208,9 +205,8 @@ bool list_unshift(list_t *self, int value)
     assert(self);
 
     node_t *node = node_new(value);
-    if (!node) {
+    if (!node)
         return false;
-    }
 
     if (!(self->head)) {
         self->head = node;
@@ -230,17 +226,11 @@ bool list_unshift(list_t *self, int value)
 bool list_insert_at(list_t *self, size_t index, int value)
 {
     assert(self);
-
-    if (!(self->head)) {
-        assert(index == 0);
-    } else {
-        assert(index <= self->size);
-    }
+    assert(index <= self->size);
 
     node_t *node = node_new(value);
-    if (!node) {
+    if (!node)
         return false;
-    }
 
     if (!(self->head)) {
         self->head = node;
@@ -290,9 +280,8 @@ bool list_insert_by(list_t *self, int value, predicate_fn predicate)
     assert(self);
 
     node_t *node = node_new(value);
-    if (!node) {
+    if (!node)
         return false;
-    }
 
     if (!(self->head)) {
         self->head = node;
@@ -402,13 +391,7 @@ int list_pop(list_t *self)
 int list_remove_at(list_t *self, size_t index)
 {
     assert(!list_is_empty(self));
-
-    if (list_size(self) == 1) {
-        assert(index == 0);
-    }
-    else {
-        assert(index < list_size(self));
-    }
+    assert(index < list_size(self));
 
     if (list_size(self) == 1) {
         int result = self->head->data;
@@ -479,9 +462,8 @@ node_t * list_start(const list_t *self)
 
 node_t * list_next(node_t *self)
 {
-    if (!self) {
+    if (!self)
         return NULL;
-    }
 
     self = self->next;
 
@@ -499,14 +481,12 @@ bool list_any(const list_t *self, filter_fn filter)
 
     node_t *curr = self->head;
 
-    if (!curr) {
+    if (!curr)
         return false;
-    }
 
     while (curr) {
-        if (filter(curr->data)) {
+        if (filter(curr->data))
             return true;
-        }
 
         curr = curr->next;
     }
@@ -520,14 +500,12 @@ bool list_all(const list_t *self, filter_fn filter)
 
     node_t *curr = self->head;
 
-    if (!curr) {
+    if (!curr)
         return false;
-    }
 
     while (curr) {
-        if (!filter(curr->data)) {
+        if (!filter(curr->data))
             return false;
-        }
 
         curr = curr->next;
     }
@@ -559,14 +537,12 @@ list_t * list_sort(const list_t *self, predicate_fn filter)
 {
     assert(self);
 
-    if (list_is_empty(self)) {
+    if (list_is_empty(self))
         return NULL;
-    }
 
     list_t *out = list_new();
-    if (!out) {
+    if (!out)
         return out;
-    }
 
     node_t *curr = self->head;
     list_push(out, curr->data);
@@ -586,9 +562,8 @@ bool list_select_mut(list_t **self, filter_fn filter)
     assert(*self);
 
     list_t *out = list_new();
-    if (!out) {
+    if (!out)
         return false;
-    }
 
     node_t *curr = (*self)->head;
     while (curr) {
@@ -614,9 +589,8 @@ bool list_map_mut(list_t **self, map_fn mapper)
     assert(*self);
 
     list_t *result = list_new();
-    if (!result) {
+    if (!result)
         return false;
-    }
 
     node_t *p = (*self)->head;
     while (p) {
