@@ -1,5 +1,4 @@
-#ifndef LIST_H
-#define LIST_H
+#pragma once
 
 #include <stdbool.h>
 #include <stddef.h>
@@ -18,7 +17,7 @@ list_t * list_new(void);
 list_t * list_init(size_t size, int value, ...);
 
 // Destructor.
-void list_free(void *self);
+void list_delete(void *self);
 
 // list_t state.
 bool list_is_empty(const list_t *self);
@@ -59,5 +58,3 @@ bool list_map_mut(list_t **self, map_fn mapper);
 int list_reduce(const list_t *self, reduce_fn reducer);
 
 int node_value(list_iter_t iter);
-
-#endif // LIST_H

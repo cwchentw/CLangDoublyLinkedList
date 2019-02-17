@@ -70,7 +70,7 @@ bool test_list_is_empty(void)
     }
 
 LIST_FREE:
-    list_free(lt);
+    list_delete(lt);
 
     if (failed) {
         return false;
@@ -103,7 +103,7 @@ bool test_list_at(void)
 
 LIST_FREE:
     free(out);
-    list_free(lt);
+    list_delete(lt);
 
     if (failed) {
         return false;
@@ -146,7 +146,7 @@ bool test_list_contains(void)
 
     free(sz_p);
 
-    list_free(lt);
+    list_delete(lt);
     
     return true;
     
@@ -155,7 +155,7 @@ ERROR:
         free(sz_p);
 
     if (lt)
-        list_free(lt);
+        list_delete(lt);
     
     return false;
 }
@@ -184,7 +184,7 @@ bool test_list_set_at(void)
 
 LIST_FREE:
     free(out);
-    list_free(lt);
+    list_delete(lt);
 
     if (failed) {
         return false;
@@ -246,7 +246,7 @@ bool test_list_unshift(void)
     }
 
 LIST_FREE:
-    list_free(lt);
+    list_delete(lt);
 
     if (failed) {
         return false;
@@ -321,7 +321,7 @@ bool test_list_insert_by(void)
     }
 
 LIST_FREE:
-    list_free(lt);
+    list_delete(lt);
 
     if (failed) {
         return false;
@@ -378,7 +378,7 @@ bool test_list_push(void)
     }
 
 LIST_FREE:
-    list_free(lt);
+    list_delete(lt);
 
     if (failed) {
         return false;
@@ -449,7 +449,7 @@ bool test_list_shift(void)
     }
 
 LIST_FREE:
-    list_free(lt);
+    list_delete(lt);
 
     if (failed) {
         return false;
@@ -494,7 +494,7 @@ bool test_list_pop(void)
     }
 
 LIST_FREE:
-    list_free(lt);
+    list_delete(lt);
 
     if (failed) {
         return false;
@@ -555,7 +555,7 @@ bool test_list_insert_at(void)
 
 LIST_FREE:
     free(out);
-    list_free(lt);
+    list_delete(lt);
 
     if (failed) {
         return false;
@@ -600,7 +600,7 @@ bool test_list_remove_at()
     }
 
 LIST_FREE:
-    list_free(lt);
+    list_delete(lt);
 
     if (failed) {
         return false;
@@ -633,7 +633,7 @@ bool test_list_iter(void)
     }
 
 LIST_FREE:
-    list_free(lt);
+    list_delete(lt);
 
     if (failed) {
         return false;
@@ -688,11 +688,11 @@ bool test_list_any(void)
     }
 
 LIST_R_FREE:
-    list_free(lr);
+    list_delete(lr);
 LIST_Q_FREE:
-    list_free(lq);
+    list_delete(lq);
 LIST_P_FREE:
-    list_free(lp);
+    list_delete(lp);
 
     if (failed) {
         return false;
@@ -741,11 +741,11 @@ bool test_list_all(void)
     }
 
 LIST_R_FREE:
-    list_free(lr);
+    list_delete(lr);
 LIST_Q_FREE:
-    list_free(lq);
+    list_delete(lq);
 LIST_P_FREE:
-    list_free(lp);
+    list_delete(lp);
 
     if (failed) {
         return false;
@@ -772,7 +772,7 @@ bool test_list_find(void)
 
 LIST_FREE:
     free(index);
-    list_free(lt);
+    list_delete(lt);
 
     if (failed) {
         return false;
@@ -812,9 +812,9 @@ bool test_list_sort(void)
 
 SORTED_FREE:
     free(out);
-    list_free(sorted);
+    list_delete(sorted);
 LIST_FREE:
-    list_free(lt);
+    list_delete(lt);
 
     if (failed) {
         return false;
@@ -849,7 +849,7 @@ bool test_list_select_mut(void)
 
 LIST_FREE:
     free(temp);
-    list_free(lt);
+    list_delete(lt);
 
     if (failed) {
         return false;
@@ -894,7 +894,7 @@ bool test_list_map_mut(void)
     }
 
 LIST_P_FREE:
-    list_free(lp);
+    list_delete(lp);
 
     if (failed) {
         return false;
@@ -924,7 +924,7 @@ bool test_list_reduce(void)
     }
 
 LIST_FREE:
-    list_free(lt);
+    list_delete(lt);
 
     if (failed) {
         return false;

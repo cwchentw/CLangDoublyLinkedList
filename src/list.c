@@ -57,7 +57,7 @@ list_t * list_init(size_t size, int value, ...)
 
     node_t *first = node_new(value);
     if (!first) {
-        list_free(lt);
+        list_delete(lt);
         lt = NULL;
         return lt;
     }
@@ -75,7 +75,7 @@ list_t * list_init(size_t size, int value, ...)
         if (temp == NULL) {
             va_end(args);
 
-            list_free(lt);
+            list_delete(lt);
             lt = NULL;
 
             return lt;
@@ -93,7 +93,7 @@ list_t * list_init(size_t size, int value, ...)
     return lt;
 }
 
-void list_free(void *self)
+void list_delete(void *self)
 {
     if (!self)
         return;
@@ -591,7 +591,7 @@ bool list_select_mut(list_t **self, filter_fn filter)
     while (curr) {
         if (filter(curr->data)) {
             if (!list_push(out, curr->data)) {
-                list_free(out);
+                list_delete(out);
 
                 return false;
             }
@@ -600,7 +600,7 @@ bool list_select_mut(list_t **self, filter_fn filter)
         curr = curr->next;
     }
 
-    list_free(*self);
+    list_delete(*self);
     *self = out;
 
     return true;
@@ -617,7 +617,7 @@ bool list_map_mut(list_t **self, map_fn mapper)
     node_t *p = (*self)->head;
     while (p) {
         if (!list_push(result, mapper(p->data))) {
-            list_free(result);
+            list_delete(result);
             result = NULL;
             return false;
         }
@@ -625,7 +625,7 @@ bool list_map_mut(list_t **self, map_fn mapper)
         p = p->next;
     }
 
-    list_free(*self);
+    list_delete(*self);
     *self = result;
 
     return true;
