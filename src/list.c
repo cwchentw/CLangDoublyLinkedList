@@ -139,13 +139,12 @@ int list_peek_rear(const list_t *self)
 
 bool list_at(const list_t *self, size_t index, int *out)
 {
-    assert(self);
     assert(index < list_size(self));
 
     node_t* curr = self->head;
     size_t i = 0;
     while (curr) {
-        if (i == index) {
+        if (index == i) {
             *out = curr->data;
             return true;
         }
