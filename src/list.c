@@ -153,6 +153,8 @@ bool list_at(const list_t *self, size_t index, int *out)
         curr = curr->next;
         i++;
     }
+    
+    *out = 0;  // Fake data.
 
     return false;
 }
