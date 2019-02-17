@@ -28,6 +28,7 @@ size_t list_size(const list_t *self);
 int list_peek_front(const list_t *self);
 int list_peek_rear(const list_t *self);
 bool list_at(const list_t *self, size_t index, int *out);
+bool list_contains(const list_t *self, int value, size_t *index);
 
 // Setters.
 bool list_set_at(list_t *self, size_t index, int data);

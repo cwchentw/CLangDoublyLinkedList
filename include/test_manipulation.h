@@ -3,6 +3,7 @@
 
 bool test_list_is_empty(void);
 bool test_list_at(void);
+bool test_list_contains(void);
 bool test_list_set_at(void);
 bool test_list_unshift(void);
 bool test_list_push(void);

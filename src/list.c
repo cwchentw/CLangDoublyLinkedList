@@ -158,6 +158,27 @@ bool list_at(const list_t *self, size_t index, int *out)
     return false;
 }
 
+bool list_contains(const list_t *self, int value, size_t *index)
+{
+    assert(self);
+    
+    node_t *curr = self->head;
+    size_t i = 0;
+    while (curr) {
+        if (value == curr->data) {
+            *index = i;
+            return true;
+        }
+        
+        curr = curr->next;
+        i++;
+    }
+    
+    *index = 0;  // Fake data.
+    
+    return false;
+}
+
 bool list_set_at(list_t *self, size_t index, int data)
 {
     assert(self);

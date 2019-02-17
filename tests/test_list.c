@@ -12,6 +12,10 @@
         } \
     }
 
+#define ERROR(msg, ...) { \
+    fprintf(stderr, "(%s:%d) " msg "\n", __FILE__, __LINE__, ##__VA_ARGS__); \
+}
+
 int main()
 {
     // Test list state.
@@ -19,6 +23,7 @@ int main()
 
     // Test list getters.
     TEST(test_list_at());
+    TEST(test_list_contains());
 
     // Test list setters.
     TEST(test_list_set_at());
@@ -105,6 +110,54 @@ LIST_FREE:
     }
 
     return true;
+}
+
+bool test_list_contains(void)
+{
+    list_t *lt = NULL;
+    size_t *sz_p = NULL;
+    
+    lt = list_init(3, 3, 4, 5);
+    if (!lt) {
+        ERROR("Failed to create a list");
+        goto ERROR;
+    }
+    
+    sz_p = malloc(sizeof(size_t));
+    if (!sz_p) {
+        ERROR("Failed to allocate memory for size_t");
+        goto ERROR;
+    }
+    
+    if (!list_contains(lt, 4, sz_p)) {
+        ERROR("It should contain the value");
+        goto ERROR;
+    }
+    
+    if (!(*sz_p == 1)) {
+        ERROR("Wrong index %zu", *sz_p);
+        goto ERROR;
+    }
+    
+    if (list_contains(lt, 9, sz_p)) {
+        ERROR("It should not contain the value");
+        goto ERROR;
+    }
+
+    free(sz_p);
+
+    list_free(lt);
+    
+    return true;
+    
+ERROR:
+    if (sz_p)
+        free(sz_p);
+
+    if (lt)
+        list_free(lt);
+    
+    return false;
 }
 
 bool test_list_set_at(void)
