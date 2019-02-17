@@ -48,9 +48,9 @@ bool test_list_is_empty(void)
 {
     bool failed = false;
 
-    List *lt = list_new();
+    list_t *lt = list_new();
     if (lt == NULL) {
-        perror("Failed to allocate List lt");
+        perror("Failed to allocate list_t lt");
         return false;
     }
 
@@ -78,7 +78,7 @@ bool test_list_at(void)
 {
     bool failed = false;
 
-    List *lt = list_init(3, 3, 4, 5);
+    list_t *lt = list_init(3, 3, 4, 5);
 
     int *out = malloc(sizeof(int));
     if (!(list_at(lt, 0, out) && *out == 3)) {
@@ -111,7 +111,7 @@ bool test_list_set_at(void)
 {
     bool failed = false;
 
-    List *lt = list_init(3, 3, 4, 5);
+    list_t *lt = list_init(3, 3, 4, 5);
 
     int *out = malloc(sizeof(int));
     if (!(list_at(lt, 1, out) && *out == 4)) {
@@ -144,13 +144,13 @@ bool test_list_unshift(void)
 {
     bool failed = false;
 
-    List *lt = list_new();
+    list_t *lt = list_new();
     if (lt == NULL) {
-        perror("Failed to allocate List lt");
+        perror("Failed to allocate list_t lt");
         return false;
     }
 
-    // List: 9 -> NULL
+    // list_t: 9 -> NULL
     if (!list_unshift(lt, 9)) {
         failed = true;
         goto LIST_FREE;
@@ -171,7 +171,7 @@ bool test_list_unshift(void)
         goto LIST_FREE;
     }
 
-    // List: 4 -> 9 -> NULL
+    // list_t: 4 -> 9 -> NULL
     if (!list_unshift(lt, 4)) {
         failed = true;
         goto LIST_FREE;
@@ -212,25 +212,25 @@ bool test_list_insert_by(void)
 {
     bool failed = false;
 
-    List *lt = list_new();
+    list_t *lt = list_new();
     if (!lt) {
-        perror("Failed to allocate List lt");
+        perror("Failed to allocate list_t lt");
         return false;
     }
 
-    // List: 2 -> NULL
+    // list_t: 2 -> NULL
     if (!list_insert_by(lt, 2, is_smaller)) {
         failed = true;
         goto LIST_FREE;
     }
 
-    // List: 2 -> 3 -> NULL
+    // list_t: 2 -> 3 -> NULL
     if (!list_insert_by(lt, 3, is_smaller)) {
         failed = true;
         goto LIST_FREE;
     }
 
-    // List: 1 -> 2 -> 3 -> NULL
+    // list_t: 1 -> 2 -> 3 -> NULL
     if (!list_insert_by(lt, 1, is_smaller)) {
         failed = true;
         goto LIST_FREE;
@@ -281,13 +281,13 @@ bool test_list_push(void)
 {
     bool failed = false;
 
-    List *lt = list_new();
+    list_t *lt = list_new();
     if (lt == NULL) {
-        perror("Failed to allocate List lt");
+        perror("Failed to allocate list_t lt");
         return false;
     }
 
-    // List: 9 -> NULL
+    // list_t: 9 -> NULL
     if (!list_push(lt, 9)) {
         failed = true;
         goto LIST_FREE;
@@ -303,7 +303,7 @@ bool test_list_push(void)
         goto LIST_FREE;
     }
 
-    // List: 9 -> 5 -> NULL
+    // list_t: 9 -> 5 -> NULL
     if (!list_push(lt, 5)) {
         failed = true;
         goto LIST_FREE;
@@ -338,25 +338,25 @@ bool test_list_shift(void)
 {
     bool failed = false;
 
-    List *lt = list_new();
+    list_t *lt = list_new();
     if (lt == NULL) {
-        perror("Failed to allocate List lt");
+        perror("Failed to allocate list_t lt");
         return false;
     }
 
-    // List: 9 -> NULL
+    // list_t: 9 -> NULL
     if (!list_unshift(lt, 9)) {
         failed = true;
         goto LIST_FREE;
     }
 
-    // List: 4 -> 9 -> NULL
+    // list_t: 4 -> 9 -> NULL
     if (!list_unshift(lt, 4)) {
         failed = true;
         goto LIST_FREE;
     }
 
-    // List: 4 -> 9 -> 5 -> NULL
+    // list_t: 4 -> 9 -> 5 -> NULL
     if (!list_push(lt, 5)) {
         failed = true;
         goto LIST_FREE;
@@ -367,19 +367,19 @@ bool test_list_shift(void)
         goto LIST_FREE;
     }
 
-    // List: 9 -> 5 -> NULL
+    // list_t: 9 -> 5 -> NULL
     if (list_shift(lt) != 4) {
         failed = true;
         goto LIST_FREE;
     }
 
-    // List: 5 -> NULL
+    // list_t: 5 -> NULL
     if (list_shift(lt) != 9) {
         failed = true;
         goto LIST_FREE;
     }
 
-    // List: NULL
+    // list_t: NULL
     if (list_shift(lt) != 5) {
         failed = true;
         goto LIST_FREE;
@@ -409,9 +409,9 @@ bool test_list_pop(void)
 {
     bool failed = false;
 
-    List *lt = list_init(3, 4, 9, 5);
+    list_t *lt = list_init(3, 4, 9, 5);
     if (lt == NULL) {
-        perror("Failed to allocate List lt");
+        perror("Failed to allocate list_t lt");
         return false;
     }
 
@@ -455,7 +455,7 @@ bool test_list_insert_at(void)
     bool failed = false;
     int *out = malloc(sizeof(int));
 
-    List *lt = list_init(2, 3, 4);
+    list_t *lt = list_init(2, 3, 4);
     if (!lt) {
         return false;
     }
@@ -516,7 +516,7 @@ bool test_list_remove_at()
     bool failed = false;
 
     // 4 -> 5 -> 6 -> 7 -> 8
-    List *lt = list_init(5, 4, 5, 6, 7, 8);
+    list_t *lt = list_init(5, 4, 5, 6, 7, 8);
     if (!lt) {
         perror("Failed to allocate a list\n");
         return false;
@@ -560,17 +560,17 @@ bool test_list_iter(void)
 {
     bool failed = false;
 
-    // List: 4 -> 9 -> 5 -> NULL;
-    List *lt = list_init(3, 4, 9, 5);
+    // list_t: 4 -> 9 -> 5 -> NULL;
+    list_t *lt = list_init(3, 4, 9, 5);
     if (lt == NULL) {
-        perror("Failed to allocate List lt");
+        perror("Failed to allocate list_t lt");
         return false;
     }
 
     int arr[] = {4, 9, 5};
     size_t i = 0;
     // Iterate through lt.
-    for (ListIter it = list_start(lt); !list_end(it); it = list_next(it)) {
+    for (list_iter_t it = list_start(lt); !list_end(it); it = list_next(it)) {
         if (node_value(it) != arr[i]) {
             failed = true;
             goto LIST_FREE;
@@ -599,9 +599,9 @@ bool test_list_any(void)
 {
     bool failed = false;
 
-    List *lp = list_new();
+    list_t *lp = list_new();
     if (lp == NULL) {
-        perror("Failed to allocate List lp");
+        perror("Failed to allocate list_t lp");
         return false;
     }
 
@@ -610,9 +610,9 @@ bool test_list_any(void)
         goto LIST_P_FREE;
     }
 
-    List *lq = list_init(5, 1, 3, 5, 7, 9);
+    list_t *lq = list_init(5, 1, 3, 5, 7, 9);
     if (lq == NULL) {
-        perror("Failed to allocate List lq");
+        perror("Failed to allocate list_t lq");
         failed = true;
         goto LIST_P_FREE;
     }
@@ -622,9 +622,9 @@ bool test_list_any(void)
         goto LIST_Q_FREE;
     }
 
-    List *lr = list_init(5, 1, 2, 3, 4, 5);
+    list_t *lr = list_init(5, 1, 2, 3, 4, 5);
     if (lr == NULL) {
-        perror("Failed to allocate List lr");
+        perror("Failed to allocate list_t lr");
         failed = true;
         goto LIST_Q_FREE;
     }
@@ -652,9 +652,9 @@ bool test_list_all(void)
 {
     bool failed = false;
 
-    List *lp = list_new();
+    list_t *lp = list_new();
     if (lp == NULL) {
-        perror("Failed to allocate List lp");
+        perror("Failed to allocate list_t lp");
         return false;
     }
 
@@ -663,9 +663,9 @@ bool test_list_all(void)
         goto LIST_P_FREE;
     }
 
-    List *lq = list_init(5, 1, 2, 3, 4, 5);
+    list_t *lq = list_init(5, 1, 2, 3, 4, 5);
     if (lq == NULL) {
-        perror("Failed to allocate List lq");
+        perror("Failed to allocate list_t lq");
         failed = true;
         goto LIST_P_FREE;
     }
@@ -675,9 +675,9 @@ bool test_list_all(void)
         goto LIST_Q_FREE;
     }
 
-    List *lr = list_init(5, 2, 4, 6, 8, 10);
+    list_t *lr = list_init(5, 2, 4, 6, 8, 10);
     if (lr == NULL) {
-        perror("Failed to allocate List lr");
+        perror("Failed to allocate list_t lr");
         failed = true;
         goto LIST_Q_FREE;
     }
@@ -705,7 +705,7 @@ bool test_list_find(void)
 {
     bool failed = false;
 
-    List *lt = list_init(5, 5, 6, 7, 8, 9);
+    list_t *lt = list_init(5, 5, 6, 7, 8, 9);
     if (!lt) {
         return false;
     }
@@ -736,12 +736,12 @@ bool test_list_sort(void)
 {
     bool failed = false;
 
-    List *lt = list_init(5, 2, 4, 1, 5, 3);
+    list_t *lt = list_init(5, 2, 4, 1, 5, 3);
     if (!lt) {
         return false;
     }
 
-    List *sorted = list_sort(lt, ascending);
+    list_t *sorted = list_sort(lt, ascending);
     if (!sorted) {
         failed = true;
         goto LIST_FREE;
@@ -774,7 +774,7 @@ bool test_list_select_mut(void)
 {
     bool failed = false;
 
-    List *lt = list_init(5, 5, 6, 7, 8, 9);
+    list_t *lt = list_init(5, 5, 6, 7, 8, 9);
     if (!lt) {
         return false;
     }
@@ -813,24 +813,24 @@ bool test_list_map_mut(void)
 {
     bool failed = false;
 
-    // List p: 1 -> 2 -> 3 -> NULL
-    List *lp = list_init(3, 1, 2, 3);
+    // list_t p: 1 -> 2 -> 3 -> NULL
+    list_t *lp = list_init(3, 1, 2, 3);
     if (lp == NULL) {
-        perror("Failed to allocate List lp");
+        perror("Failed to allocate list_t lp");
         return false;
     }
 
-    // List q: 1 -> 4 -> 9 -> NULL
+    // list_t q: 1 -> 4 -> 9 -> NULL
     // Traverse in functional style.
     if (!list_map_mut(&lp, square)) {
-        perror("Failed to allocate List lq");
+        perror("Failed to allocate list_t lq");
         failed = true;
         goto LIST_P_FREE;
     }
 
     int arr[] = {1, 4, 9};
     size_t i = 0;
-    for (ListIter it = list_start(lp); !list_end(it); it = list_next(it)) {
+    for (list_iter_t it = list_start(lp); !list_end(it); it = list_next(it)) {
         if (node_value(it) != arr[i]) {
             failed = true;
             goto LIST_P_FREE;
@@ -858,7 +858,7 @@ bool test_list_reduce(void)
 {
     bool failed = false;
 
-    List *lt = list_init(5, 1, 2, 3, 4, 5);
+    list_t *lt = list_init(5, 1, 2, 3, 4, 5);
     if (!lt) {
         return false;
     }

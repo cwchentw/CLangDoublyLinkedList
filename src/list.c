@@ -6,19 +6,19 @@
 
 struct node {
     int data;
-    Node *prev;
-    Node *next;
+    node_t *prev;
+    node_t *next;
 };
 
 struct list {
-    Node *head;
-    Node *tail;
+    node_t *head;
+    node_t *tail;
     size_t size;
 };
 
-static Node * node_new(int data)
+static node_t * node_new(int data)
 {
-    Node *node = malloc(sizeof(Node));
+    node_t *node = malloc(sizeof(node_t));
     if (!node) {
         return node;
     }
@@ -30,16 +30,16 @@ static Node * node_new(int data)
     return node;
 }
 
-int node_value(Node *self)
+int node_value(node_t *self)
 {
     assert(self);
 
     return self->data;
 }
 
-List * list_new(void)
+list_t * list_new(void)
 {
-    List *lt = malloc(sizeof(List));
+    list_t *lt = malloc(sizeof(list_t));
     if (!lt) {
         return lt;
     }
@@ -51,14 +51,14 @@ List * list_new(void)
     return lt;
 }
 
-List * list_init(size_t size, int value, ...)
+list_t * list_init(size_t size, int value, ...)
 {
-    List *lt = malloc(sizeof(List));
+    list_t *lt = malloc(sizeof(list_t));
     if (!lt) {
         return lt;
     }
 
-    Node *first = node_new(value);
+    node_t *first = node_new(value);
     if (!first) {
         list_free(lt);
         lt = NULL;
@@ -72,7 +72,7 @@ List * list_init(size_t size, int value, ...)
     va_start(args, value);
     lt->size++;
 
-    Node *temp;
+    node_t *temp;
     for (size_t i = 1; i < size; i++) {
         temp = node_new(va_arg(args, int));
         if (temp == NULL) {
@@ -99,8 +99,8 @@ void list_free(void *self)
         return;
     }
 
-    Node *curr = ((List *) self)->head;
-    Node *temp;
+    node_t *curr = ((list_t *) self)->head;
+    node_t *temp;
     while (curr) {
         temp = curr;
         curr = curr->next;
@@ -110,38 +110,38 @@ void list_free(void *self)
     free(self);
 }
 
-bool list_is_empty(const List *self)
+bool list_is_empty(const list_t *self)
 {
     assert(self);
 
     return self->head == NULL;
 }
 
-size_t list_size(const List *self)
+size_t list_size(const list_t *self)
 {
     assert(self);
 
     return self->size;
 }
 
-int list_peek_front(const List *self)
+int list_peek_front(const list_t *self)
 {
     assert(!list_is_empty(self));
     return self->head->data;
 }
 
-int list_peek_rear(const List *self)
+int list_peek_rear(const list_t *self)
 {
     assert(!list_is_empty(self));
     return self->tail->data;
 }
 
-bool list_at(const List *self, size_t index, int *out)
+bool list_at(const list_t *self, size_t index, int *out)
 {
     assert(self);
     assert(index < list_size(self));
 
-    Node* curr = self->head;
+    node_t* curr = self->head;
     size_t i = 0;
     while (curr) {
         if (i == index) {
@@ -156,12 +156,12 @@ bool list_at(const List *self, size_t index, int *out)
     return false;
 }
 
-bool list_set_at(List *self, size_t index, int data)
+bool list_set_at(list_t *self, size_t index, int data)
 {
     assert(self);
     assert(index < list_size(self));
 
-    Node* curr = self->head;
+    node_t* curr = self->head;
     size_t i = 0;
     while (curr) {
         if (i == index) {
@@ -176,11 +176,11 @@ bool list_set_at(List *self, size_t index, int data)
     return false;
 }
 
-bool list_push(List *self, int value)
+bool list_push(list_t *self, int value)
 {
     assert(self);
 
-    Node *node = node_new(value);
+    node_t *node = node_new(value);
     if (!node) {
         return false;
     }
@@ -200,11 +200,11 @@ bool list_push(List *self, int value)
     return true;
 }
 
-bool list_unshift(List *self, int value)
+bool list_unshift(list_t *self, int value)
 {
     assert(self);
 
-    Node *node = node_new(value);
+    node_t *node = node_new(value);
     if (!node) {
         return false;
     }
@@ -224,7 +224,7 @@ bool list_unshift(List *self, int value)
     return true;
 }
 
-bool list_insert_at(List *self, size_t index, int value)
+bool list_insert_at(list_t *self, size_t index, int value)
 {
     assert(self);
 
@@ -234,7 +234,7 @@ bool list_insert_at(List *self, size_t index, int value)
         assert(index <= self->size);
     }
 
-    Node *node = node_new(value);
+    node_t *node = node_new(value);
     if (!node) {
         return false;
     }
@@ -246,8 +246,8 @@ bool list_insert_at(List *self, size_t index, int value)
         return true;
     }
 
-    Node *p = NULL;
-    Node *q = self->head;
+    node_t *p = NULL;
+    node_t *q = self->head;
     size_t i = 0;
     while(q->next) {
         if (i == index) {
@@ -282,11 +282,11 @@ bool list_insert_at(List *self, size_t index, int value)
     return true;
 }
 
-bool list_insert_by(List *self, int value, predicateFn predicate)
+bool list_insert_by(list_t *self, int value, predicate_fn predicate)
 {
     assert(self);
 
-    Node *node = node_new(value);
+    node_t *node = node_new(value);
     if (!node) {
         return false;
     }
@@ -316,8 +316,8 @@ bool list_insert_by(List *self, int value, predicateFn predicate)
         return true;
     }
 
-    Node *p = NULL;
-    Node *q = self->head;
+    node_t *p = NULL;
+    node_t *q = self->head;
     while (q->next) {
         if (predicate(value, q->data)) {
             if (!p) {
@@ -350,7 +350,7 @@ bool list_insert_by(List *self, int value, predicateFn predicate)
     return true;
 }
 
-int list_shift(List *self)
+int list_shift(list_t *self)
 {
     assert(!list_is_empty(self));
 
@@ -362,7 +362,7 @@ int list_shift(List *self)
         self->tail = NULL;
     }
     else {
-        Node *curr = self->head;
+        node_t *curr = self->head;
         self->head = curr->next;
         free(curr);
         self->head->prev = NULL;
@@ -373,7 +373,7 @@ int list_shift(List *self)
     return popped;
 }
 
-int list_pop(List *self)
+int list_pop(list_t *self)
 {
     assert(!list_is_empty(self));
 
@@ -385,7 +385,7 @@ int list_pop(List *self)
         self->tail = NULL;
     }
     else {
-        Node *curr = self->tail;
+        node_t *curr = self->tail;
         self->tail = curr->prev;
         free(curr);
         self->tail->next = NULL;
@@ -396,7 +396,7 @@ int list_pop(List *self)
     return popped;
 }
 
-int list_remove_at(List *self, size_t index)
+int list_remove_at(list_t *self, size_t index)
 {
     assert(!list_is_empty(self));
 
@@ -420,8 +420,8 @@ int list_remove_at(List *self, size_t index)
 
     int result;
 
-    Node *p = NULL;
-    Node *q = self->head;
+    node_t *p = NULL;
+    node_t *q = self->head;
     size_t i = 0;
     while (q->next) {
         if (i == index) {
@@ -458,17 +458,17 @@ int list_remove_at(List *self, size_t index)
     return result;
 }
 
-Node * list_start(const List *self)
+node_t * list_start(const list_t *self)
 {
     assert(self);
 
     // Init an iterator.
-    Node *iter = self->head;
+    node_t *iter = self->head;
 
     return iter;
 }
 
-Node * list_next(Node *self)
+node_t * list_next(node_t *self)
 {
     if (!self) {
         return NULL;
@@ -479,16 +479,16 @@ Node * list_next(Node *self)
     return self;
 }
 
-bool list_end(Node *self)
+bool list_end(node_t *self)
 {
     return self == NULL;
 }
 
-bool list_any(const List *self, filterFn filter)
+bool list_any(const list_t *self, filter_fn filter)
 {
     assert(self);
 
-    Node *curr = self->head;
+    node_t *curr = self->head;
 
     if (!curr) {
         return false;
@@ -505,11 +505,11 @@ bool list_any(const List *self, filterFn filter)
     return false;
 }
 
-bool list_all(const List *self, filterFn filter)
+bool list_all(const list_t *self, filter_fn filter)
 {
     assert(self);
 
-    Node *curr = self->head;
+    node_t *curr = self->head;
 
     if (!curr) {
         return false;
@@ -526,11 +526,11 @@ bool list_all(const List *self, filterFn filter)
     return true;
 }
 
-bool list_find(const List *self, filterFn filter, size_t *out)
+bool list_find(const list_t *self, filter_fn filter, size_t *out)
 {
     assert(!list_is_empty(self));
 
-    Node *curr = self->head;
+    node_t *curr = self->head;
     size_t i = 0;
     while (curr) {
         if (filter(curr->data)) {
@@ -546,7 +546,7 @@ bool list_find(const List *self, filterFn filter, size_t *out)
     return false;
 }
 
-List * list_sort(const List *self, predicateFn filter)
+list_t * list_sort(const list_t *self, predicate_fn filter)
 {
     assert(self);
 
@@ -554,12 +554,12 @@ List * list_sort(const List *self, predicateFn filter)
         return NULL;
     }
 
-    List *out = list_new();
+    list_t *out = list_new();
     if (!out) {
         return out;
     }
 
-    Node *curr = self->head;
+    node_t *curr = self->head;
     list_push(out, curr->data);
     curr = curr->next;
 
@@ -572,16 +572,16 @@ List * list_sort(const List *self, predicateFn filter)
     return out;
 }
 
-bool list_select_mut(List **self, filterFn filter)
+bool list_select_mut(list_t **self, filter_fn filter)
 {
     assert(*self);
 
-    List *out = list_new();
+    list_t *out = list_new();
     if (!out) {
         return false;
     }
 
-    Node *curr = (*self)->head;
+    node_t *curr = (*self)->head;
     while (curr) {
         if (filter(curr->data)) {
             if (!list_push(out, curr->data)) {
@@ -600,16 +600,16 @@ bool list_select_mut(List **self, filterFn filter)
     return true;
 }
 
-bool list_map_mut(List **self, mapFn mapper)
+bool list_map_mut(list_t **self, map_fn mapper)
 {
     assert(*self);
 
-    List *result = list_new();
+    list_t *result = list_new();
     if (!result) {
         return false;
     }
 
-    Node *p = (*self)->head;
+    node_t *p = (*self)->head;
     while (p) {
         if (!list_push(result, mapper(p->data))) {
             list_free(result);
@@ -626,11 +626,11 @@ bool list_map_mut(List **self, mapFn mapper)
     return true;
 }
 
-int list_reduce(const List *self, reduceFn reducer)
+int list_reduce(const list_t *self, reduce_fn reducer)
 {
     assert(!list_is_empty(self));
 
-    Node *curr = self->head;
+    node_t *curr = self->head;
     int a = curr->data;
     curr = curr->next;
 

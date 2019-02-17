@@ -54,3 +54,8 @@ dkms.conf
 # Dist files
 dist/*
 !dist/.gitkeep
+
+# Editor configuration
+.vscode/
+.kdev4/
+c-list-linked.kdev4
