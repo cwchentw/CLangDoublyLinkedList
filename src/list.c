@@ -76,8 +76,11 @@ list_t * list_init(size_t size, int value, ...)
     for (size_t i = 1; i < size; i++) {
         temp = node_new(va_arg(args, int));
         if (temp == NULL) {
+            va_end(args);
+
             list_free(lt);
             lt = NULL;
+
             return lt;
         }
 
