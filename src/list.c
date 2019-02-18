@@ -181,7 +181,6 @@ bool list_contains(const list_t *self, int value, size_t *index)
 
 bool list_set_at(list_t *self, size_t index, int data)
 {
-    assert(self);
     assert(index < list_size(self));
 
     node_t* curr = self->head;
