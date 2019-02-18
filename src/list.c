@@ -259,6 +259,8 @@ bool list_insert_at(list_t *self, size_t index, int value)
         return true;
     }
 
+    bool visited = false;
+
     node_t *p = NULL;
     node_t *q = self->head;
     size_t i = 0;
@@ -276,6 +278,8 @@ bool list_insert_at(list_t *self, size_t index, int value)
                 node->next = q;
             }
 
+            visited = true;
+
             break;
         }
 
@@ -288,7 +292,12 @@ bool list_insert_at(list_t *self, size_t index, int value)
         self->tail->next = node;
         node->prev = self->tail;
         self->tail = node;
+
+        visited = true;
     }
+
+    if (!visited)
+        return false;
 
     self->size++;
 
