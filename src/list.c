@@ -246,8 +246,7 @@ bool list_unshift(list_t *self, int value)
 
 bool list_insert_at(list_t *self, size_t index, int value)
 {
-    assert(self);
-    assert(index <= self->size);
+    assert(index <= list_size(self));
 
     node_t *node = node_new(value);
     if (!node)
