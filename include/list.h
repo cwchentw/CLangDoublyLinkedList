@@ -1,11 +1,15 @@
 #pragma once
 
-#include <stdbool.h>
-#include <stddef.h>
+#ifdef __cplusplus
+    #include <cstddef>
+#else
+    #include <stdbool.h>
+    #include <stddef.h>
+#endif
 
-typedef struct node node_t;
+typedef struct node_t node_t;
 typedef node_t * list_iter_t;
-typedef struct list list_t;
+typedef struct list_t list_t;
 
 typedef bool (*filter_fn) (int);
 typedef bool (*predicate_fn) (int, int);

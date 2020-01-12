@@ -4,13 +4,13 @@
 #include <stdlib.h>
 #include "list.h"
 
-struct node {
+struct node_t {
     int data;
     node_t *prev;
     node_t *next;
 };
 
-struct list {
+struct list_t {
     node_t *head;
     node_t *tail;
     size_t size;
